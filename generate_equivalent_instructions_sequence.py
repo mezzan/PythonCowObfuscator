@@ -2,16 +2,18 @@ import tokenizer
 import random
 import re
 
+""" Indentation length. """
 SPACE_NUM = 4
+""" A set with variables name. """
 vars = set()
 
 
 def replace_instructions(lines):
     """
-    For each line, if it is neccessary, it replaces an istruction with a sequence of instructions.
+    For each line, if it is neccessary, it replaces an instruction with a sequence of instructions.
 
-    :param lines: Result from tokenizer.tokenize_file(...)
-    :return: A list of lines
+    :param lines: Result from tokenizer.tokenize_file(...).
+    :return: A list of lines.
     """
     for index, line in enumerate(lines):
         line_tokenized = tokenizer.tokenize_line(line)
@@ -58,6 +60,7 @@ def replace_instructions(lines):
 def match_pattern(line):
     """
     Return the corresponding pattern of instruction.
+    
     :param line: The code line to categorize.
     :return: The category code.
     """
@@ -73,6 +76,13 @@ def match_pattern(line):
 
 
 def generate_sum_sub_var_var_var(tokens):
+    """
+    Generate a sequence of instructions to replace a simple sum o subtraction instruction.
+    Instruction format: variable = variable [+,-] variable.
+    
+    :param tokens: Iterable tokens.
+    :return: A string as the new block of instructions.
+    """
     # var = var {+,-} var
 
     # get indentation
@@ -107,7 +117,7 @@ def generate_sum_sub_var_var_var(tokens):
             block += ' + 1'
             block += '\n'
         else:
-            # v1 = v2 + v3
+            # v1 = v2 {+,-} v3
             block = ' ' * indentation
             block += var_name
             block += '='
@@ -134,7 +144,7 @@ def generate_sum_sub_var_var_var(tokens):
     else:
         # generate while
         if tokens[0][1] == tokens[2][1]:
-            # v1 = v1 + v2
+            # v1 = v1 {+,-} v2
             block = ' ' * indentation
             var_name_while = get_random_var()
             block += var_name_while
@@ -157,7 +167,7 @@ def generate_sum_sub_var_var_var(tokens):
             block += ' + 1'
             block += '\n'
         else:
-            # v1 = v2 + v3
+            # v1 = v2 {+,-} v3
             block = ' ' * indentation
             block += var_name
             block += '='
@@ -190,7 +200,14 @@ def generate_sum_sub_var_var_var(tokens):
 
 
 def generate_sum_sub_var_var_num(tokens):
-    # var = var + num
+    """
+    Generate a sequence of instructions to replace a simple sum o subtraction instruction.
+    Instruction format: variable = variable [+,-] integer.
+    
+    :param tokens: Iterable tokens.
+    :return: A string as the new block of instructions.
+    """
+    # var = var {+,-} num
 
     # get indentation
     indentation = int(tokens[0][3][0] - 1)
@@ -205,7 +222,7 @@ def generate_sum_sub_var_var_num(tokens):
         # generate for
 
         if tokens[0][1] == tokens[2][1]:
-            # v1 = v1 + num
+            # v1 = v1 {+,-} num
             block = ' ' * indentation
             block += 'for '
 
@@ -224,7 +241,7 @@ def generate_sum_sub_var_var_num(tokens):
             block += ' + 1'
             block += '\n'
         else:
-            # v1 = v2 + num
+            # v1 = v2 {+,-} num
             block = ' ' * indentation
             block += var_name
             block += '='
@@ -251,7 +268,7 @@ def generate_sum_sub_var_var_num(tokens):
     else:
         # generate while
         if tokens[0][1] == tokens[2][1]:
-            # v1 = v1 + num
+            # v1 = v1 {+,-} num
             block = ' ' * indentation
             var_name_while = get_random_var()
             block += var_name_while
@@ -274,7 +291,7 @@ def generate_sum_sub_var_var_num(tokens):
             block += ' + 1'
             block += '\n'
         else:
-            # v1 = v2 + num
+            # v1 = v2 {+,-} num
             block = ' ' * indentation
             block += var_name
             block += '='
@@ -307,7 +324,14 @@ def generate_sum_sub_var_var_num(tokens):
 
 
 def generate_sum_sub_var_num_var(tokens):
-    # var = num + var
+    """
+    Generate a sequence of instructions to replace a simple sum o subtraction instruction.
+    Instruction format: variable = integer [+,-] variable.
+    
+    :param tokens: Iterable tokens.
+    :return: A string as the new block of instructions given from a call of generate_sum_sub_var_var_num function.
+    """
+    # var = num {+,-} var
     token_temp = tokens[2]
     tokens[2] = tokens[4]
     tokens[4] = token_temp
@@ -315,7 +339,14 @@ def generate_sum_sub_var_num_var(tokens):
 
 
 def generate_mult_var_var_var(tokens):
-    # var = var + var
+    """
+    Generate a sequence of instructions to replace a simple multiplication instruction.
+    Instruction format: variable = variable * variable.
+
+    :param tokens: Iterable tokens.
+    :return: A string as the new block of instructions.
+    """
+    # var = var * var
 
     # get indentation
     indentation = int(tokens[0][3][0] - 1)
@@ -438,6 +469,13 @@ def generate_mult_var_var_var(tokens):
 
 
 def generate_mult_var_var_num(tokens):
+    """
+    Generate a sequence of instructions to replace a simple multiplication instruction.
+    Instruction format: variable = variable * integer.
+
+    :param tokens: Iterable tokens.
+    :return: A string as the new block of instructions.
+    """
     # var = var * num
 
     # get indentation
@@ -561,6 +599,13 @@ def generate_mult_var_var_num(tokens):
 
 
 def generate_mult_var_num_var(tokens):
+    """
+    Generate a sequence of instructions to replace a simple multiplication instruction.
+    Instruction format: variable = integer * variable.
+
+    :param tokens: Iterable tokens.
+    :return: A string as the new block of instructions given from a call of generate_sum_sub_var_var_num function.
+    """
     # var = num * var
     token_temp = tokens[2]
     tokens[2] = tokens[4]
@@ -568,8 +613,14 @@ def generate_mult_var_num_var(tokens):
     return generate_mult_var_var_num(tokens)
 
 
-# TODO: controllare se funzionano
 def generate_div_var_var_var(tokens):
+    """
+    Generate a sequence of instructions to replace a simple division instruction.
+    Instruction format: variable = variable / variable.
+
+    :param tokens: Iterable tokens.
+    :return: A string as the new block of instructions.
+    """
     # var1 = var2 / var3
 
     # get indentation
@@ -592,12 +643,19 @@ def generate_div_var_var_var(tokens):
     block += divisor
     block += ' * '
     block += str(rand_factor)
+    block += '\n'
 
     return block
 
 
 def generate_div_var_var_num(tokens):
-    # var1 = var2 / num
+    """
+    Generate a sequence of instructions to replace a simple division instruction.
+    Instruction format: variable = variable / integer.
+
+    :param tokens: Iterable tokens.
+    :return: A string as the new block of instructions.
+    """
 
     # get indentation
     indentation = int(tokens[0][3][0] - 1)
@@ -619,11 +677,19 @@ def generate_div_var_var_num(tokens):
     block += str(rand_factor)
     block += ' / '
     block += str(divisor)
+    block += '\n'
 
     return block
 
 
 def generate_div_var_num_var(tokens):
+    """
+    Generate a sequence of instructions to replace a simple division instruction.
+    Instruction format: variable = integer / variable.
+
+    :param tokens: Iterable tokens.
+    :return: A string as the new block of instructions given from a call of generate_sum_sub_var_var_num function.
+    """
     # var = num + var
     token_temp = tokens[2]
     tokens[2] = tokens[4]
@@ -632,7 +698,9 @@ def generate_div_var_num_var(tokens):
 
 
 def get_random_var():
-    """ Return a fresh and random variable name. """
+    """
+    :return: Return a fresh and random variable name.
+    """
     while True:
         var = 'random_var_'
         var += str(random.randint(0,100000))
@@ -642,7 +710,10 @@ def get_random_var():
 
 
 def short_to_long(tokens):
-    """ Transform an algebraic instruction from short to long version, for example from 'v+=1' to 'v=v+1'. """
+    """
+    Transform an algebraic instruction from short to long version, for example from 'v+=1' to 'v=v+1'.
+    :return: A string as the new format instruction.
+    """
     # from: var1 += var2
     # to: var1 = var1 + var
 
