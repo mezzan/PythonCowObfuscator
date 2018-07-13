@@ -79,6 +79,12 @@ def match_pattern(line):
 
 
 def get_operators(tokens):
+    """
+    Return a dictionary with instruction operators.
+
+    :param tokens: Tokens given from tokenizer
+    :return: A dictionary
+    """
     operators = {}
     for i in range(0, len(tokens)):
         if tokens[i][1] == '=':
