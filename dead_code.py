@@ -1,6 +1,16 @@
 import random
 import tokenize
+import string
 
+list=['while', 'for', 'def', 'if']
+
+
+def control(source_string):
+	for x in list:
+		if x in source_string:
+			return True
+		
+	return False
 
 def start(source_path):
 	# apro il file da offuscare
@@ -9,10 +19,26 @@ def start(source_path):
 
 	lines = source.readlines()
 
-	variable_is_inizialized = False
+	#variable_is_inizialized = False
+
+	dead_code_variables = open('./dead_code/dead_code_variables.py', 'r')
+
+	for line in dead_code_variables:
+		output.write(line)
+
+	output.write('\n\n')
 
 	for line in lines:
 
+		if not '#' in line:
+			if (not line[0] == ' ') and (not line[0] == '\t') and control(line):
+				output.write('\n')
+				insert_dead_code(output)
+				output.write('\n\n' + line)
+			else:
+				output.write(line)
+		
+		'''
 		# verifico che line non sia una riga di commento
 		if line[0] != '#':
 
@@ -35,6 +61,7 @@ def start(source_path):
 
 			else:
 				output.write(line)
+		'''
 
 	output.write('\n')
 	insert_dead_code(output)
