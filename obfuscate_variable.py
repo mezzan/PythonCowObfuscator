@@ -83,7 +83,7 @@ def tokenize_ofbusate(line):
                 if old not in replacement.keys() and replace not in replacement.items():
                     replacement[old] = replace
             else:
-                old = tokenize_line[ind+3][1]
+                old = tokenizer.tokenize_line[ind+3][1]
                 replace = generate()
                 if old not in replacement.keys() and replace not in replacement.items():
                     replacement[old] = replace

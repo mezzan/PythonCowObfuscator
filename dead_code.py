@@ -1,15 +1,49 @@
 import random
 import tokenize
 
-#apro il file da offuscare
-source = open('source.py', "r")
-output = open('output.py', 'w')
 
-lines = source.readlines()
+def start(source_path):
+	# apro il file da offuscare
+	source = open(source_path, "r")
+	output = open('output.py', 'w')
 
-variable_is_inizialized = False
+	lines = source.readlines()
 
-def insert_dead_code():
+	variable_is_inizialized = False
+
+	for line in lines:
+
+		# verifico che line non sia una riga di commento
+		if line[0] != '#':
+
+			# se line è vuota e le variabili del codice morto non sono ancora state inizializzate le inizializzo
+			if line == '\n' and not variable_is_inizialized:
+				dead_code_variables = open('./dead_code/dead_code_variables.py', 'r')
+
+				output.write('\n')
+
+				for line in dead_code_variables:
+					output.write(line)
+					variable_is_inizialized = True
+
+				output.write('\n')
+
+			elif line == '\n':
+
+				insert_dead_code(output)
+				output.write('\n\n')
+
+			else:
+				output.write(line)
+
+	output.write('\n')
+	insert_dead_code(output)
+	output.write('\n')
+
+	output.close()
+	source.close()
+
+def insert_dead_code(output):
 	ran = random.randint(1,15)
 	dead_code = open('./dead_code/dead_code_' + str(ran) +'.py', 'r')
 
@@ -21,33 +55,7 @@ def insert_dead_code():
 	dead_code.close()
 
 
-for line in lines:
 
-	#verifico che line non sia una riga di commento
-	if line[0] != '#':
-		
-		#se line è vuota e le variabili del codice morto non sono ancora state inizializzate le inizializzo
-		if line == '\n' and not variable_is_inizialized:
-			dead_code_variables = open('./dead_code/dead_code_variables.py', 'r')
 
-			output.write('\n')
 
-			for line in dead_code_variables:
-				output.write(line)
-				variable_is_inizialized = True
 
-			output.write('\n')
-
-		elif line == '\n':
-
-			insert_dead_code()
-			output.write('\n\n')
-
-		else:
-			output.write(line)
-
-output.write('\n')
-insert_dead_code()
-
-output.close()
-source.close()
