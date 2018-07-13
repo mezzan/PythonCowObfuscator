@@ -30,30 +30,33 @@ def replace_instructions(lines):
         if pattern == 0:
             # var = var + var
             # match the correct operation
-            if line_tokenized[3][1] == '+' or line_tokenized[3][1] == '-':
-                lines[index] = generate_sum_sub_var_var_var(line_tokenized)
-            elif line_tokenized[3][1] == '*':
-                lines[index] = generate_mult_var_var_var(line_tokenized)
-            elif line_tokenized[3][1] == '/':
-                lines[index] = generate_div_var_var_var(line_tokenized)
+            operators = get_operators(line_tokenized)
+            if operators['op'] == '+' or operators['op'] == '-':
+                lines[index] = generate_sum_sub_var_var_var(operators)
+            elif operators['op'] == '*':
+                lines[index] = generate_mult_var_var_var(operators)
+            elif operators['op'] == '/':
+                lines[index] = generate_div_var_var_var(operators)
         elif pattern == 1:
             # var = var + num
             # match the correct operation
-            if line_tokenized[3][1] == '+' or line_tokenized[3][1] == '-':
-                lines[index] = generate_sum_sub_var_var_num(line_tokenized)
-            elif line_tokenized[3][1] == '*':
-                lines[index] = generate_mult_var_var_num(line_tokenized)
-            elif line_tokenized[3][1] == '/':
-                lines[index] = generate_div_var_var_num(line_tokenized)
+            operators = get_operators(line_tokenized)
+            if operators['op'] == '+' or operators['op'] == '-':
+                lines[index] = generate_sum_sub_var_var_num(operators)
+            elif operators['op'] == '*':
+                lines[index] = generate_mult_var_var_num(operators)
+            elif operators['op'] == '/':
+                lines[index] = generate_div_var_var_num(operators)
         elif pattern == 2:
             # var = num + var
             # match the correct operation
-            if line_tokenized[3][1] == '+' or line_tokenized[3][1] == '-':
-                lines[index] = generate_sum_sub_var_num_var(line_tokenized)
-            elif line_tokenized[3][1] == '*':
-                lines[index] = generate_mult_var_num_var(line_tokenized)
-            elif line_tokenized[3][1] == '/':
-                lines[index] = generate_div_var_num_var(line_tokenized)
+            operators = get_operators(line_tokenized)
+            if operators['op'] == '+' or operators['op'] == '-':
+                lines[index] = generate_sum_sub_var_num_var(operators)
+            elif operators['op'] == '*':
+                lines[index] = generate_mult_var_num_var(operators)
+            elif operators['op'] == '/':
+                lines[index] = generate_div_var_num_var(operators)
     return lines
 
 
@@ -75,29 +78,43 @@ def match_pattern(line):
         return 0
 
 
-def generate_sum_sub_var_var_var(tokens):
+def get_operators(tokens):
+    operators = {}
+    for i in range(0, len(tokens)):
+        if tokens[i][1] == '=':
+            operators['first'] = tokens[i-1][1]
+            operators['second'] = tokens[i+1][1]
+            operators['third'] = tokens[i+3][1]
+            operators['op'] = tokens[i+2][1]
+            # TODO: indentation -1   ???
+            operators['indentation'] = tokens[i-1][2][1]
+            return operators
+    return operators
+
+
+def generate_sum_sub_var_var_var(operators):
     """
     Generate a sequence of instructions to replace a simple sum o subtraction instruction.
     Instruction format: variable = variable [+,-] variable.
     
-    :param tokens: Iterable tokens.
+    :param operators: A dictionary with operators.
     :return: A string as the new block of instructions.
     """
     # var = var {+,-} var
 
     # get indentation
-    indentation = int(tokens[0][3][0] - 1)
+    indentation = operators['indentation']
 
     # get variable name
-    var_name = tokens[0][1]
+    var_name = operators['first']
 
     # get term
-    term = tokens[4][1]
+    term = operators['third']
 
     if random.randint(0, 1) == 0:
         # generate for
 
-        if tokens[0][1] == tokens[2][1]:
+        if operators['first'] == operators['second']:
             # v1 = v1 + v2
             block = ' ' * indentation
             block += 'for '
@@ -121,7 +138,7 @@ def generate_sum_sub_var_var_var(tokens):
             block = ' ' * indentation
             block += var_name
             block += '='
-            block += tokens[2][1]
+            block += operators['second']
             block += '\n'
             block += ' ' * indentation
             block += 'for '
@@ -143,7 +160,7 @@ def generate_sum_sub_var_var_var(tokens):
 
     else:
         # generate while
-        if tokens[0][1] == tokens[2][1]:
+        if operators['first'] == operators['second']:
             # v1 = v1 {+,-} v2
             block = ' ' * indentation
             var_name_while = get_random_var()
@@ -171,7 +188,7 @@ def generate_sum_sub_var_var_var(tokens):
             block = ' ' * indentation
             block += var_name
             block += '='
-            block += tokens[2][1]
+            block += operators['second']
             block += '\n'
             var_name_while = get_random_var()
             block += ' ' * indentation
@@ -199,29 +216,29 @@ def generate_sum_sub_var_var_var(tokens):
     return block
 
 
-def generate_sum_sub_var_var_num(tokens):
+def generate_sum_sub_var_var_num(operators):
     """
     Generate a sequence of instructions to replace a simple sum o subtraction instruction.
     Instruction format: variable = variable [+,-] integer.
     
-    :param tokens: Iterable tokens.
+    :param operators: A dictionary with operators.
     :return: A string as the new block of instructions.
     """
     # var = var {+,-} num
 
     # get indentation
-    indentation = int(tokens[0][3][0] - 1)
+    indentation = operators['indentation']
 
     # get variable name
-    var_name = tokens[0][1]
+    var_name = operators['first']
 
     # get term
-    term = int(tokens[4][1])
+    term = int(operators['third'])
 
     if random.randint(0, 1) == 0:
         # generate for
 
-        if tokens[0][1] == tokens[2][1]:
+        if operators['first'] == operators['second']:
             # v1 = v1 {+,-} num
             block = ' ' * indentation
             block += 'for '
@@ -245,7 +262,7 @@ def generate_sum_sub_var_var_num(tokens):
             block = ' ' * indentation
             block += var_name
             block += '='
-            block += tokens[2][1]
+            block += operators['second']
             block += '\n'
             block += ' ' * indentation
             block += 'for '
@@ -267,7 +284,7 @@ def generate_sum_sub_var_var_num(tokens):
 
     else:
         # generate while
-        if tokens[0][1] == tokens[2][1]:
+        if operators['first'] == operators['second']:
             # v1 = v1 {+,-} num
             block = ' ' * indentation
             var_name_while = get_random_var()
@@ -295,7 +312,7 @@ def generate_sum_sub_var_var_num(tokens):
             block = ' ' * indentation
             block += var_name
             block += '='
-            block += tokens[2][1]
+            block += operators['second']
             block += '\n'
             var_name_while = get_random_var()
             block += ' ' * indentation
@@ -323,44 +340,44 @@ def generate_sum_sub_var_var_num(tokens):
     return block
 
 
-def generate_sum_sub_var_num_var(tokens):
+def generate_sum_sub_var_num_var(operators):
     """
     Generate a sequence of instructions to replace a simple sum o subtraction instruction.
     Instruction format: variable = integer [+,-] variable.
     
-    :param tokens: Iterable tokens.
+    :param operators: A dictionary with operators.
     :return: A string as the new block of instructions given from a call of generate_sum_sub_var_var_num function.
     """
     # var = num {+,-} var
-    token_temp = tokens[2]
-    tokens[2] = tokens[4]
-    tokens[4] = token_temp
-    return generate_sum_sub_var_var_num(tokens)
+    temp = operators['second']
+    operators['second'] = operators['third']
+    operators['third'] = temp
+    return generate_sum_sub_var_var_num(operators)
 
 
-def generate_mult_var_var_var(tokens):
+def generate_mult_var_var_var(operators):
     """
     Generate a sequence of instructions to replace a simple multiplication instruction.
     Instruction format: variable = variable * variable.
 
-    :param tokens: Iterable tokens.
+    :param operators: A dictionary with operators.
     :return: A string as the new block of instructions.
     """
     # var = var * var
 
     # get indentation
-    indentation = int(tokens[0][3][0] - 1)
+    indentation = operators['indentation']
 
     # get variable name
-    var_name = tokens[0][1]
+    var_name = operators['first']
 
     # get term
-    term = tokens[4][1]
+    term = operators['third']
 
     if random.randint(0, 1) == 0:
         # generate for
 
-        if tokens[0][1] == tokens[2][1]:
+        if operators['first'] == operators['second']:
             # v1 = v1 * v2
             block = ' ' * indentation
             block += 'var_base = '
@@ -404,12 +421,12 @@ def generate_mult_var_var_var(tokens):
             block += ' = '
             block += var_name
             block += ' + '
-            block += tokens[2][1]
+            block += operators['second']
             block += '\n'
 
     else:
         # generate while
-        if tokens[0][1] == tokens[2][1]:
+        if operators['first'] == operators['second']:
             # v1 = v1 * v2
             block = ' ' * indentation
             block += 'var_base = '
@@ -456,7 +473,7 @@ def generate_mult_var_var_var(tokens):
             block += ' = '
             block += var_name
             block += ' + '
-            block += tokens[2][1]
+            block += operators['second']
             block += '\n'
             block += ' ' * (indentation + SPACE_NUM)
             block += var_name_while
@@ -468,29 +485,29 @@ def generate_mult_var_var_var(tokens):
     return block
 
 
-def generate_mult_var_var_num(tokens):
+def generate_mult_var_var_num(operators):
     """
     Generate a sequence of instructions to replace a simple multiplication instruction.
     Instruction format: variable = variable * integer.
 
-    :param tokens: Iterable tokens.
+    :param operators: A dictionary with operators.
     :return: A string as the new block of instructions.
     """
     # var = var * num
 
     # get indentation
-    indentation = int(tokens[0][3][0] - 1)
+    indentation = operators['indentation']
 
     # get variable name
-    var_name = tokens[0][1]
+    var_name = operators['first']
 
     # get term
-    term = int(tokens[4][1])
+    term = int(operators['third'])
 
     if random.randint(0, 1) == 0:
         # generate for
 
-        if tokens[0][1] == tokens[2][1]:
+        if operators['first'] == operators['second']:
             # v1 = v1 * num
             block = ' ' * indentation
             block += 'var_base = '
@@ -534,12 +551,12 @@ def generate_mult_var_var_num(tokens):
             block += ' = '
             block += var_name
             block += ' + '
-            block += tokens[2][1]
+            block += operators['second']
             block += '\n'
 
     else:
         # generate while
-        if tokens[0][1] == tokens[2][1]:
+        if operators['first'] == operators['second']:
             # v1 = v1 * num
             block = ' ' * indentation
             block += 'var_base = '
@@ -586,7 +603,7 @@ def generate_mult_var_var_num(tokens):
             block += ' = '
             block += var_name
             block += ' + '
-            block += tokens[2][1]
+            block += operators['second']
             block += '\n'
             block += ' ' * (indentation + SPACE_NUM)
             block += var_name_while
@@ -598,38 +615,38 @@ def generate_mult_var_var_num(tokens):
     return block
 
 
-def generate_mult_var_num_var(tokens):
+def generate_mult_var_num_var(operators):
     """
     Generate a sequence of instructions to replace a simple multiplication instruction.
     Instruction format: variable = integer * variable.
 
-    :param tokens: Iterable tokens.
+    :param operators: A dictionary with operators.
     :return: A string as the new block of instructions given from a call of generate_sum_sub_var_var_num function.
     """
     # var = num * var
-    token_temp = tokens[2]
-    tokens[2] = tokens[4]
-    tokens[4] = token_temp
-    return generate_mult_var_var_num(tokens)
+    temp = operators['second']
+    operators['second'] = operators['third']
+    operators['third'] = temp
+    return generate_mult_var_var_num(operators)
 
 
-def generate_div_var_var_var(tokens):
+def generate_div_var_var_var(operators):
     """
     Generate a sequence of instructions to replace a simple division instruction.
     Instruction format: variable = variable / variable.
 
-    :param tokens: Iterable tokens.
+    :param operators: A dictionary with operators.
     :return: A string as the new block of instructions.
     """
     # var1 = var2 / var3
 
     # get indentation
-    indentation = int(tokens[0][3][0] - 1)
+    indentation = operators['indentation']
 
     # get var name of quotient, dividend and divisor
-    quotient = tokens[0][1]
-    dividend = tokens[2][1]
-    divisor = tokens[4][1]
+    quotient = operators['first']
+    dividend = operators['second']
+    divisor = operators['third']
 
     rand_factor = random.randint(1,1000)
 
@@ -648,22 +665,22 @@ def generate_div_var_var_var(tokens):
     return block
 
 
-def generate_div_var_var_num(tokens):
+def generate_div_var_var_num(operators):
     """
     Generate a sequence of instructions to replace a simple division instruction.
     Instruction format: variable = variable / integer.
 
-    :param tokens: Iterable tokens.
+    :param operators: A dictionary with operators.
     :return: A string as the new block of instructions.
     """
 
     # get indentation
-    indentation = int(tokens[0][3][0] - 1)
+    indentation = operators['indentation']
 
     # get var name of quotient, dividend and divisor
-    quotient = tokens[0][1]
-    dividend = tokens[2][1]
-    divisor = int(tokens[4][1])
+    quotient = operators['first']
+    dividend = operators['second']
+    divisor = int(operators['third'])
 
     rand_factor = random.randint(1,1000)
 
@@ -682,19 +699,19 @@ def generate_div_var_var_num(tokens):
     return block
 
 
-def generate_div_var_num_var(tokens):
+def generate_div_var_num_var(operators):
     """
     Generate a sequence of instructions to replace a simple division instruction.
     Instruction format: variable = integer / variable.
 
-    :param tokens: Iterable tokens.
+    :param operators: A dictionary with operators.
     :return: A string as the new block of instructions given from a call of generate_sum_sub_var_var_num function.
     """
     # var = num + var
-    token_temp = tokens[2]
-    tokens[2] = tokens[4]
-    tokens[4] = token_temp
-    return generate_div_var_var_num(tokens)
+    temp = operators['second']
+    operators['second'] = operators['third']
+    operators['third'] = temp
+    return generate_div_var_var_num(operators)
 
 
 def get_random_var():
