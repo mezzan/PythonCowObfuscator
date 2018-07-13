@@ -1,9 +1,8 @@
 import tokenizer
 import random
 import re
+import utils
 
-""" Indentation length. """
-SPACE_NUM = 4
 """ A set with variables name. """
 vars = set()
 
@@ -125,14 +124,15 @@ def generate_sum_sub_var_var_var(operators):
             block = ' ' * indentation
             block += 'for '
 
-            var_name_for = get_random_var()
+            var_name_for = utils.get_random_var(vars)
+            vars.add(var_name_for)
             block += var_name_for
 
             block += ' in range(0, '
             block += term
             block += '-1):\n'
 
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation + utils.SPACE_NUM)
 
             block += var_name
             block += ' = '
@@ -149,14 +149,15 @@ def generate_sum_sub_var_var_var(operators):
             block += ' ' * indentation
             block += 'for '
 
-            var_name_for = get_random_var()
+            var_name_for = utils.get_random_var(vars)
+            vars.add(var_name_for)
             block += var_name_for
 
             block += ' in range(0, '
             block += term
             block += '):\n'
 
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
 
             block += var_name
             block += ' = '
@@ -169,7 +170,8 @@ def generate_sum_sub_var_var_var(operators):
         if operators['first'] == operators['second']:
             # v1 = v1 {+,-} v2
             block = ' ' * indentation
-            var_name_while = get_random_var()
+            var_name_while = utils.get_random_var(vars)
+            vars.add(var_name_while)
             block += var_name_while
             block += '=0\n'
             block += 'while ('
@@ -177,13 +179,13 @@ def generate_sum_sub_var_var_var(operators):
             block += '<'
             block += term
             block += '-1):\n'
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
             block += var_name
             block += ' = '
             block += var_name
             block += ' + 1'
             block += '\n'
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
             block += var_name_while
             block += ' = '
             block += var_name_while
@@ -196,7 +198,8 @@ def generate_sum_sub_var_var_var(operators):
             block += '='
             block += operators['second']
             block += '\n'
-            var_name_while = get_random_var()
+            var_name_while = utils.get_random_var(vars)
+            vars.add(var_name_while)
             block += ' ' * indentation
             block += var_name_while
             block += '=0\n'
@@ -206,13 +209,13 @@ def generate_sum_sub_var_var_var(operators):
             block += '<'
             block += term
             block += '):\n'
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
             block += var_name
             block += ' = '
             block += var_name
             block += ' + 1'
             block += '\n'
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
             block += var_name_while
             block += ' = '
             block += var_name_while
@@ -249,14 +252,15 @@ def generate_sum_sub_var_var_num(operators):
             block = ' ' * indentation
             block += 'for '
 
-            var_name_for = get_random_var()
+            var_name_for = utils.get_random_var(vars)
+            vars.add(var_name_for)
             block += var_name_for
 
             block += ' in range(0, '
             block += str(term-1)
             block += '):\n'
 
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
 
             block += var_name
             block += ' = '
@@ -273,14 +277,15 @@ def generate_sum_sub_var_var_num(operators):
             block += ' ' * indentation
             block += 'for '
 
-            var_name_for = get_random_var()
+            var_name_for = utils.get_random_var(vars)
+            vars.add(var_name_for)
             block += var_name_for
 
             block += ' in range(0, '
             block += str(term)
             block += '):\n'
 
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
 
             block += var_name
             block += ' = '
@@ -293,7 +298,8 @@ def generate_sum_sub_var_var_num(operators):
         if operators['first'] == operators['second']:
             # v1 = v1 {+,-} num
             block = ' ' * indentation
-            var_name_while = get_random_var()
+            var_name_while = utils.get_random_var(vars)
+            vars.add(var_name_while)
             block += var_name_while
             block += '=0\n'
             block += 'while ('
@@ -301,13 +307,13 @@ def generate_sum_sub_var_var_num(operators):
             block += '<'
             block += str(term-1)
             block += '):\n'
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
             block += var_name
             block += ' = '
             block += var_name
             block += ' + 1'
             block += '\n'
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
             block += var_name_while
             block += ' = '
             block += var_name_while
@@ -320,7 +326,8 @@ def generate_sum_sub_var_var_num(operators):
             block += '='
             block += operators['second']
             block += '\n'
-            var_name_while = get_random_var()
+            var_name_while = utils.get_random_var(vars)
+            vars.add(var_name_while)
             block += ' ' * indentation
             block += var_name_while
             block += '=0\n'
@@ -330,13 +337,13 @@ def generate_sum_sub_var_var_num(operators):
             block += '<'
             block += str(term)
             block += '):\n'
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
             block += var_name
             block += ' = '
             block += var_name
             block += ' + 1'
             block += '\n'
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
             block += var_name_while
             block += ' = '
             block += var_name_while
@@ -392,14 +399,15 @@ def generate_mult_var_var_var(operators):
             block += ' ' * indentation
             block += 'for '
 
-            var_name_for = get_random_var()
+            var_name_for = utils.get_random_var(vars)
+            vars.add(var_name_for)
             block += var_name_for
 
             block += ' in range(0, '
             block += term
             block += '-1):\n'
 
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
 
             block += var_name
             block += ' = '
@@ -414,14 +422,15 @@ def generate_mult_var_var_var(operators):
             block += ' ' * indentation
             block += 'for '
 
-            var_name_for = get_random_var()
+            var_name_for = utils.get_random_var(vars)
+            vars.add(var_name_for)
             block += var_name_for
 
             block += ' in range(0, '
             block += term
             block += '):\n'
 
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
 
             block += var_name
             block += ' = '
@@ -439,7 +448,8 @@ def generate_mult_var_var_var(operators):
             block += var_name
             block += '\n'
             block += ' ' * indentation
-            var_name_while = get_random_var()
+            var_name_while = utils.get_random_var(vars)
+            vars.add(var_name_while)
             block += var_name_while
             block += '=0\n'
             block += 'while ('
@@ -447,13 +457,13 @@ def generate_mult_var_var_var(operators):
             block += '<'
             block += term
             block += '-1):\n'
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
             block += var_name
             block += ' = '
             block += var_name
             block += ' + var_base'
             block += '\n'
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
             block += var_name_while
             block += ' = '
             block += var_name_while
@@ -464,7 +474,8 @@ def generate_mult_var_var_var(operators):
             block = ' ' * indentation
             block += var_name
             block += '=0\n'
-            var_name_while = get_random_var()
+            var_name_while = utils.get_random_var(vars)
+            vars.add(var_name_while)
             block += ' ' * indentation
             block += var_name_while
             block += '=0\n'
@@ -474,14 +485,14 @@ def generate_mult_var_var_var(operators):
             block += '<'
             block += term
             block += '):\n'
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
             block += var_name
             block += ' = '
             block += var_name
             block += ' + '
             block += operators['second']
             block += '\n'
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
             block += var_name_while
             block += ' = '
             block += var_name_while
@@ -522,14 +533,15 @@ def generate_mult_var_var_num(operators):
             block += ' ' * indentation
             block += 'for '
 
-            var_name_for = get_random_var()
+            var_name_for = utils.get_random_var(vars)
+            vars.add(var_name_for)
             block += var_name_for
 
             block += ' in range(0, '
             block += str(term-1)
             block += '):\n'
 
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
 
             block += var_name
             block += ' = '
@@ -544,14 +556,15 @@ def generate_mult_var_var_num(operators):
             block += ' ' * indentation
             block += 'for '
 
-            var_name_for = get_random_var()
+            var_name_for = utils.get_random_var(vars)
+            vars.add(var_name_for)
             block += var_name_for
 
             block += ' in range(0, '
             block += str(term)
             block += '):\n'
 
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
 
             block += var_name
             block += ' = '
@@ -569,7 +582,8 @@ def generate_mult_var_var_num(operators):
             block += var_name
             block += '\n'
             block += ' ' * indentation
-            var_name_while = get_random_var()
+            var_name_while = utils.get_random_var(vars)
+            vars.add(var_name_while)
             block += var_name_while
             block += '=0\n'
             block += 'while ('
@@ -577,13 +591,13 @@ def generate_mult_var_var_num(operators):
             block += '<'
             block += str(term-1)
             block += '):\n'
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
             block += var_name
             block += ' = '
             block += var_name
             block += ' + var_base'
             block += '\n'
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
             block += var_name_while
             block += ' = '
             block += var_name_while
@@ -594,7 +608,8 @@ def generate_mult_var_var_num(operators):
             block = ' ' * indentation
             block += var_name
             block += '=0\n'
-            var_name_while = get_random_var()
+            var_name_while = utils.get_random_var(vars)
+            vars.add(var_name_while)
             block += ' ' * indentation
             block += var_name_while
             block += '=0\n'
@@ -604,14 +619,14 @@ def generate_mult_var_var_num(operators):
             block += '<'
             block += str(term)
             block += '):\n'
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
             block += var_name
             block += ' = '
             block += var_name
             block += ' + '
             block += operators['second']
             block += '\n'
-            block += ' ' * (indentation + SPACE_NUM)
+            block += ' ' * (indentation +  utils.SPACE_NUM)
             block += var_name_while
             block += ' = '
             block += var_name_while
@@ -718,18 +733,6 @@ def generate_div_var_num_var(operators):
     operators['second'] = operators['third']
     operators['third'] = temp
     return generate_div_var_var_num(operators)
-
-
-def get_random_var():
-    """
-    :return: Return a fresh and random variable name.
-    """
-    while True:
-        var = 'random_var_'
-        var += str(random.randint(0,100000))
-        if var not in vars:
-            vars.add(var)
-            return var
 
 
 def short_to_long(tokens):

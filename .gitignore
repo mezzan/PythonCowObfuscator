@@ -107,7 +107,7 @@ venv.bak/
 .idea/
 
 # test
-esempio.py
+esempio*
 script.py
 out.py
 output.py
