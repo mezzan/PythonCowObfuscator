@@ -14,32 +14,9 @@ pattern_search = {
 'with_pat': '\s*with\s*[^\s.]*\s*'
 }
 
-pattern_replace = {
-'met_pat': ['\s*', '', '\.(\w*|\w*\_)\('],
-'use_pat': ['\s*\(\s*', '', '\s*\)'],
-'use_pat2': ['\s*\(\s*', '', '\s*\,'],
-'for_pat': ['\s*for\s*', '', '\s*in\s*'],
-'for_pat2': ['\s*in\s*', '', '\s*\:\s*'],
-'as_pat' : ['\s*as\s*', '', '\s*:'],
-'ass_pat': ['\s*', '', '\=\s*'],
-'ass_pat2':['\s*\=\s*', '', '']
-}
-
-pattern_replacement_dic = {
-'met_pat': [' ', '', '.'],
-'use_pat': ['(', '', ')'],
-'use_pat2': ['(', '', ','],
-'for_pat': ['for ', '' , ' in '],
-'for_pat2': [' in ', '', ' :'],
-'as_pat' : ['as ', '', ' :'],
-'ass_pat': [' ', '', '= '],
-'ass_pat2': ['= ', '' , ' ']
-}
-
 replacement_dic = {}
-source = "/Users/valentina/Downloads/PythonCowObfuscator/generate_equivalent_instructions_sequence.py"
-#source = "/Users/valentina/Downloads/obfuscate_variable.py"
-method = []
+source = "/Users/valentina/Downloads/PythonCowObfuscator/obfuscate_va.py"
+
 
 def obfuscate():
     lines = tokenizer.tokenize_file(source)
@@ -72,30 +49,13 @@ def search_variable_to_replace(line):
         elif token_line[ind][1] == 'as' and token_line[ind+1][0] == token.NAME and token_line[ind+2][1] == ':':
             old = token_line[ind+1][1]
 
-        elif token_line[ind][1] == '.' and token_line[ind+1][0] == token.NAME:
-            method.append(token_line[ind+1][1])
-
         # case 5: import and import as TODO
         elif token_line[ind][1] == 'import':
             print(token_line[ind][1])
             if not token_line[ind+2][1]:
                 old = token_line[ind+1][1]
             else:
-<<<<<<< HEAD
                 old = tokenize_line[ind+3][1]
-=======
-                old = tokenizer.tokenize_line[ind+3][1]
-                replace = generate()
-                if old not in replacement.keys() and replace not in replacement.items():
-                    replacement[old] = replace
-    #if replacement.keys():
-    for word, replace in replacement.items():
-        for p in pattern_replace.keys():
-            line = re.sub(pattern_replace.get(p), replace, line)
-            #ok = line.replace(str(word), str(replace))
-    #print(line)
-    return line
->>>>>>> 1d7b43646440d6bb28d1cc431f720200333a964c
 
         print(old)
         replace = generate()
@@ -109,32 +69,5 @@ def replace(line):
             token[1] = replacement_dic.get(token[1])
 
     return tokenizer.untokenize_line(token_line)
-'''
-def replace(line):
-    #if replacement_dic.keys():
-    for word, replace in replacement_dic.items():
-        print('word: ' + word + ', replace: ' + replace)
-        if word in line:
-            for p in pattern_replace.keys():
-                #print('pattern: ' + p + '\nline :' + line)
-                # modify pattern of replacement
-                replacement = pattern_replacement_dic.get(p)
-                replacement[1] = replace
 
-                # modify pattern of search
-                search_word = pattern_replace.get(p)
-                search_word[1] = word
-
-                # case call on a variable
-                if p == 'met_pat' and re.search('\s*\w*\.(\w*|\w*\_)\(', line):
-                    method = line[line.find('.')+1:line.find('(')]
-                    #print('case method: ' + method)
-                    replacement[2] = replacement[2] + method + '('
-                    line = re.sub(''.join(search_word), ''.join(replacement), line)
-                    replacement[2] = '.'
-                else:
-                    line = re.sub(''.join(search_word), ''.join(replacement), line)
-                print('replaced: ' + line)
-    return line
-'''
 obfuscate()
