@@ -105,3 +105,10 @@ venv.bak/
 
 # pycharm
 .idea/
+
+# test
+esempio*
+script.py
+out.py
+output.py
+result.py

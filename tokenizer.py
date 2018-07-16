@@ -3,11 +3,18 @@ import io
 
 
 def tokenize_line(line):
-    return [list(a) for a in tokenize.generate_tokens(io.StringIO(line).readline())]
+    return [list(a) for a in tokenize.generate_tokens(io.StringIO(line).readline)]
 
 
 def untokenize_line(tokens):
     return tokenize.untokenize(tokens)
+
+# TODO: is it necessary?
+def tokens_to_line(tokens):
+    line = ''
+    for token in tokens:
+        line += str(token)
+    return line
 
 
 def tokenize_file(source_file):
