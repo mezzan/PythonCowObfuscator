@@ -15,7 +15,7 @@ pattern_search = {
 }
 
 replacement_dic = {}
-source = "/Users/valentina/Downloads/PythonCowObfuscator/obfuscate_va.py"
+source = "/Users/valentina/Downloads/dead_code.py"
 
 
 def obfuscate():
@@ -37,7 +37,7 @@ def search_variable_to_replace(line):
         if token_line[ind][1] == '(' and token_line[ind+1][0] == token.NAME and (token_line[ind+2][1] == ')' or token_line[ind+2][1] == ','):
             old = token_line[ind+1][1]
 
-        # case 2
+        # case 2 , var ) or , var ,
         elif token_line[ind][1] == ',' and token_line[ind+1][0] == token.NAME and (token_line[ind+2][1] == ')' or token_line[ind+2][1] == ','):
             old = token_line[ind+1][1]
 
@@ -46,18 +46,17 @@ def search_variable_to_replace(line):
             old = token_line[ind][1]
 
         # case 4: as var :
-        elif token_line[ind][1] == 'as' and token_line[ind+1][0] == token.NAME and token_line[ind+2][1] == ':':
+        elif token_line[ind][1] == 'as' and ((token_line[ind+1][0] == token.NAME and token_line[ind+2][1] == ':') or token_line[ind+1][0] == token.NAME):
             old = token_line[ind+1][1]
 
-        # case 5: import and import as TODO
-        elif token_line[ind][1] == 'import':
-            print(token_line[ind][1])
-            if not token_line[ind+2][1]:
-                old = token_line[ind+1][1]
-            else:
-                old = tokenize_line[ind+3][1]
+        # case 5: for var
+        elif token_line[ind][1] == 'for' and token_line[ind+1][0] == token.NAME:
+            old = token_line[ind+1][1]
 
-        print(old)
+        # case 6: if var
+        elif token_line[ind][1] == 'if' and token_line[ind+1][0] == token.NAME:
+            old = token_line[ind+1][1]
+
         replace = generate()
         if old not in replacement_dic.keys() and not old == '' and replace not in replacement_dic.items():
             replacement_dic[old] = replace
