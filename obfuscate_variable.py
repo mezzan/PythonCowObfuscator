@@ -15,10 +15,8 @@ pattern_search = {
 }
 
 replacement_dic = {}
-source = "/Users/valentina/Downloads/dead_code.py"
 
-
-def obfuscate():
+def obfuscate(source):
     lines = tokenizer.tokenize_file(source)
     for ind, line in enumerate(lines):
         for p in pattern_search.keys():
@@ -27,7 +25,7 @@ def obfuscate():
                 search_variable_to_replace(line)
         if not line == '\n':
             lines[ind] = replace(line)
-    print(lines)
+    return lines
 
 def search_variable_to_replace(line):
     token_line = tokenizer.tokenize_line(line)
@@ -68,5 +66,3 @@ def replace(line):
             token[1] = replacement_dic.get(token[1])
 
     return tokenizer.untokenize_line(token_line)
-
-obfuscate()
