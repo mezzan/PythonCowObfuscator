@@ -81,7 +81,21 @@ def search_variable_to_replace(line):
             if not token_line[ind+2][1]:
                 old = token_line[ind+1][1]
             else:
+<<<<<<< HEAD
                 old = tokenize_line[ind+3][1]
+=======
+                old = tokenizer.tokenize_line[ind+3][1]
+                replace = generate()
+                if old not in replacement.keys() and replace not in replacement.items():
+                    replacement[old] = replace
+    #if replacement.keys():
+    for word, replace in replacement.items():
+        for p in pattern_replace.keys():
+            line = re.sub(pattern_replace.get(p), replace, line)
+            #ok = line.replace(str(word), str(replace))
+    #print(line)
+    return line
+>>>>>>> 1d7b43646440d6bb28d1cc431f720200333a964c
 
         print(old)
         replace = generate()
