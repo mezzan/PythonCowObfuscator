@@ -9,7 +9,8 @@ pattern_search = { 'if_pat': '\s*if\s*\w+',
                 'met_pat': '\s*\w*\(\w*\)\s*',
                 'ass_pat': '\s*\w*\s*\=\s*\w*',
                 'wh_pat': '\s*while\s*\w*\:',
-                'with_pat': '\s*with\s*[^\s.]*\s*'
+                'with_pat': '\s*with\s*[^\s.]*\s*',
+                'def_pat': '\s*def\s*\w+\s*\(\w*',
                 }
 
 ignore_variable = ['__name__', '__main__', '__doc__', '__getattr__',
