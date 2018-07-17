@@ -71,11 +71,8 @@ def is_while(line):
 
 def get_constant(tokens):
     for token in tokens:
-        try:
-            i = int(token[1])
-            return i
-        except:
-            continue
+        if token[1].isnumeric():
+            return int(token[1])
     return None
 
 

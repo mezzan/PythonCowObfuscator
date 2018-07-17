@@ -5,7 +5,7 @@ def argv0(num):
     if v % 100 == 0:
         for index in range(0,20):
             num /= 5
-    print("Result: " + str(v) + " -- (1000)")
+    print(str(v))
 
 
 def main(argv):

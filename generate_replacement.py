@@ -1,7 +1,7 @@
 from random import randint
 
 def length():
-    return randint(5,10)
+    return randint(5,20)
 
 def cap_letter():
     if randint(0,1) == 0:

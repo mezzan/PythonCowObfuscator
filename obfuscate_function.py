@@ -16,6 +16,9 @@ def obfuscate(source,dictonary):
             search_function_to_replace(line)
         if not line == '\n':
             lines[ind] = replace(line)
+    print(replacement_dic)
+    print("============")
+    print(variable_dic)
     return lines
 
 def search_function_to_replace(line):
