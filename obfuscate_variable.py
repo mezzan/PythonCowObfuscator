@@ -55,7 +55,7 @@ def search_variable_to_replace(line):
             old = token_line[ind+1][1]
 
         # case 6: if var
-        elif token_line[ind][1] == 'if' and token_line[ind+1][0] == token.NAME:
+    elif token_line[ind][1] == 'if' and token_line[ind+1][0] == token.NAME and not token_line[ind+2][1] == '()':
             old = token_line[ind+1][1]
 
         # case 7: save import module
