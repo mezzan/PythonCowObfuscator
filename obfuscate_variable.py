@@ -34,31 +34,55 @@ def search_variable_to_replace(line):
     token_line = tokenizer.tokenize_line(line)
     for ind, tok in enumerate(token_line):
         old = ''
-        # case 1: ( var ) or ( var ,
+        # case 1: (var) or (var,
         if token_line[ind][1] == '(' and token_line[ind+1][0] == token.NAME and (token_line[ind+2][1] == ')' or token_line[ind+2][1] == ','):
             old = token_line[ind+1][1]
 
-        # case 2 , var ) or , var ,
+        # case 2: (var ) or (var ,
+        elif token_line[ind][1] == '(' and token_line[ind+1][0] == token.NAME and token_line[ind+2][1] == ' ' and (token_line[ind+3][1] == ')' or token_line[ind+3][1] == ','):
+            old = token_line[ind+1][1]
+
+        # case 3: ( var) or ( var,
+        elif token_line[ind][1] == '(' and token_line[ind+1][1] == ' ' and token_line[ind+2][0] == token.NAME and (token_line[ind+3][1] == ')' or token_line[ind+3][1] == ','):
+            old = token_line[ind+2][1]
+
+        # case 4: ( var ) or ( var ,
+        elif token_line[ind][1] == '(' and token_line[ind+1][1] == ' ' and token_line[ind+2][0] == token.NAME and token_line[ind+3][1] == ' ' and (token_line[ind+4][1] == ')' or token_line[ind+4][1] == ','):
+            old = token_line[ind+2][1]
+
+        # case 5 ,var) or ,var,
         elif token_line[ind][1] == ',' and token_line[ind+1][0] == token.NAME and (token_line[ind+2][1] == ')' or token_line[ind+2][1] == ','):
             old = token_line[ind+1][1]
 
-        # case 3: assignment
+        # case 6: , var) or , var,
+        elif token_line[ind][1] == ',' and token_line[ind+1][1] == ' ' and token_line[ind+2][0] == token.NAME and (token_line[ind+3][1] == ')' or token_line[ind+3][1] == ','):
+            old = token_line[ind+2][1]
+
+        # case 7: ,var ) or ,var ,
+        elif token_line[ind][1] == ',' and token_line[ind+1][0] == token.NAME and token_line[ind+2][1] == ' ' and (token_line[ind+3][1] == ')' or token_line[ind+3][1] == ','):
+            old = token_line[ind+1][1]
+
+        # case 8: , var ) or , var ,
+        elif token_line[ind][1] == ',' and token_line[ind+1][1] == ' ' and token_line[ind+2][0] == token.NAME and token_line[ind+3][1] == ' ' and (token_line[ind+4][1] == ')' or token_line[ind+4][1] == ','):
+            old = token_line[ind+2][1]
+
+        # case 9: assignment
         elif token_line[ind][0] == token.NAME and (token_line[ind+1][1] == '=' or token_line[ind+2][1] == '='):
             old = token_line[ind][1]
 
-        # case 4: as var :
+        # case 10: as var :
         elif token_line[ind][1] == 'as' and ((token_line[ind+1][0] == token.NAME and token_line[ind+2][1] == ':') or token_line[ind+1][0] == token.NAME):
             old = token_line[ind+1][1]
 
-        # case 5: for var
+        # case 11: for var
         elif token_line[ind][1] == 'for' and token_line[ind+1][0] == token.NAME:
             old = token_line[ind+1][1]
 
-        # case 6: if var
+        # case 12: if var
         elif token_line[ind][1] == 'if' and token_line[ind+1][0] == token.NAME and not token_line[ind+2][1] == '(':
             old = token_line[ind+1][1]
 
-        # case 7: save import module
+        # case 13: save import module
         elif token_line[ind][1] == 'import' and token_line[ind+1][0] == token.NAME:
             import_list.append(token_line[ind+1][1])
 
