@@ -3,18 +3,22 @@ from generate_replacement import generate
 import token
 import re
 
-pattern_search = {
-'if_pat': '\s*if\s*\w+',
-'for_pat': '\s*for\s*\w+\s*in\s*',
-'def_pat': '\s*def\s*\w+\s*\(\w*',
-'imp_pat': '\s*import\s*\w*\s*as\s*',
-'met_pat': '\s*\w*\(\w*\)\s*',
-'ass_pat': '\s*\w*\=\s*\w*',
-'wh_pat': '\s*while\s*\w*\:',
-'with_pat': '\s*with\s*[^\s.]*\s*'
-}
+pattern_search = { 'if_pat': '\s*if\s*\w+',
+                'for_pat': '\s*for\s*\w+\s*in\s*',
+                'def_pat': '\s*def\s*\w+\s*\(\w*',
+                'imp_pat': '\s*import\s*\w*\s*as\s*',
+                'met_pat': '\s*\w*\(\w*\)\s*',
+                'ass_pat': '\s*\w*\=\s*\w*',
+                'wh_pat': '\s*while\s*\w*\:',
+                'with_pat': '\s*with\s*[^\s.]*\s*'
+                }
+
+ignore_variable = ['__name__', '__main__', '__doc__', '__getattr__',
+                '__setattr__', '__class__', '__bases__', '__subclasses__',
+                '__init__', '__dict__', 'and', 'not']
 
 replacement_dic = {}
+import_list = []
 
 def obfuscate(source):
     lines = tokenizer.tokenize_file(source)
@@ -55,14 +59,19 @@ def search_variable_to_replace(line):
         elif token_line[ind][1] == 'if' and token_line[ind+1][0] == token.NAME:
             old = token_line[ind+1][1]
 
+        # case 7: save import module
+        elif token_line[ind][1] == 'import' and token_line[ind+1][0] == token.NAME:
+            import_list.append(token_line[ind+1][1])
+
         replace = generate()
         if old not in replacement_dic.keys() and not old == '' and replace not in replacement_dic.items():
             replacement_dic[old] = replace
 
 def replace(line):
     token_line = tokenizer.tokenize_line(line)
-    for token in token_line:
-        if token[1] in replacement_dic:
-            token[1] = replacement_dic.get(token[1])
+    for ind, token in enumerate(token_line):
+        if token[ind][1] in replacement_dic and token[ind][1] not in ignore_variable:
+            if ind > 1 and token[ind-1][2] not in import_list:
+                token[ind][1] = replacement_dic.get(token[ind][1])
 
     return tokenizer.untokenize_line(token_line)
