@@ -5,7 +5,6 @@ import re
 
 pattern_search = { 'if_pat': '\s*if\s*\w+',
                 'for_pat': '\s*for\s*\w+\s*in\s*',
-                'def_pat': '\s*def\s*\w+\s*\(\w*',
                 'imp_pat': '\s*import\s*\w*',
                 'met_pat': '\s*\w*\(\w*\)\s*',
                 'ass_pat': '\s*\w*\s*\=\s*\w*',

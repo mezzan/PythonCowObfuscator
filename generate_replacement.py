@@ -26,5 +26,3 @@ def generate():
     for i in range(0, length()):
         key+=choice_letter()
     return key
-
-#print(generate())
