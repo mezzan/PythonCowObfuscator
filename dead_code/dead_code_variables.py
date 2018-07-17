@@ -36,7 +36,7 @@ for i in range(1000, 1005):
     if (int(s[0])%2==0) and (int(s[1])%2==0) and (int(s[2])%2==0) and (int(s[3])%2==0):
         qqqqqqq.append(s)
 
-mmmmmmmm = 2  
+mmmmmmmm = 2
 mmmmmmmmm = 3
 
 qqqqqqqq = []
@@ -70,9 +70,9 @@ def SumFunction(number1, number2):
 
 def checkValue(n):
 	if n%2 == 0:
-		print "It is an even number"
+		print("It is an even number")
 	else:
-		print "It is an odd number"
-	
+		print("It is an odd number")
+
 ppppppppp = 0
 pppppppp = 2

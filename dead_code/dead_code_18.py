@@ -4,7 +4,7 @@ pppppp = ["<B>","Jack","and","Jill","</B>","went","up","the","hill","to","<B>",\
 "after"]
 
 def get_bolds(list):
-        true = 1  
+        true = 1
         false = 0
         is_bold = false
         start_block = 0
@@ -13,15 +13,15 @@ def get_bolds(list):
 
                 if list[index] == "<B>":
                         if is_bold:
-                                print "Error:  Extra Bold"
+                                print("Error:  Extra Bold")
 
                         is_bold = true
                         start_block = index+1
 
                 if list[index] == "</B>":
                         if not is_bold:
-                                print "Error: Extra Close Bold"
-                        print "Bold [",start_block,":",index,"] ",\
+                                print("Error: Extra Close Bold")
+                        print("Bold ["+start_block+":"+index+"] ")
                         list[start_block:index]
                         is_bold = false
                         start_block = index+1

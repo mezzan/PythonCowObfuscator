@@ -1,44 +1,17 @@
-import sys, getopt
-import os
-import re
+import sys
 
-""" commento su una linea """
-def getStudentID(fileName):
-    print("=============")
-    print(fileName)
-    student=re.match('VR[0-9][0-9][0-9][0-9][0-9][0-9]',fileName)
-    print(student.group(0))
-    print("=============")
-
-
-def parseFolder(dir):
-    """ commento
-        su
-        piu
-        linee
-    """
-    for top, dirs, files in os.walk(dir):
-        for nm in files:
-            with open(os.path.join(top, nm)) as fileOpened:
-                getStudentID(nm)
-
-
+def argv0(num):
+    v = num * 100
+    if v % 100 == 0:
+        for index in range(0,20):
+            num /= 5
+    print("Result: " + str(v) + " -- (10)")
 
 
 def main(argv):
     if len(argv) == 0:
-        print("Error: invalid use.")
-        print("studentsList.py -d <inputdir>")
-        sys.exit(2)
+        agv0(10)
 
-    try:
-        opt, arg = getopt.getopt(argv, "d", ["idir="])
-    except getopt.GetoptError:
-        print("Error: invalid use.")
-        print("studentsList.py -d <inputdir>")
-        sys.exit(2)
-
-    parseFolder(str(arg[0]))
 
 if __name__ == "__main__":
     main(sys.argv[1:])

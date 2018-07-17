@@ -15,6 +15,7 @@ def replace_instructions(lines):
     :return: A list of lines.
     """
     for index, line in enumerate(lines):
+        print("-) "+ line)
         line_tokenized = tokenizer.tokenize_line(line)
         line_to_replace = line
 
@@ -302,6 +303,7 @@ def generate_sum_sub_var_var_num(operators):
             vars.add(var_name_while)
             block += var_name_while
             block += '=0\n'
+            block += ' ' * indentation
             block += 'while ('
             block += var_name_while
             block += '<'
