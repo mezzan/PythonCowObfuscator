@@ -29,7 +29,7 @@ def obfuscate(source):
                 search_variable_to_replace(line)
         if not line == '\n':
             lines[ind] = replace(line)
-    return lines
+    return (lines, replacement_dic)
 
 def search_variable_to_replace(line):
     token_line = tokenizer.tokenize_line(line)

@@ -4,8 +4,10 @@ import token
 import re
 
 replacement_dic = {}
+variable_dic = {}
 
-def obfuscate(source):
+def obfuscate(source,dictonary):
+    variable_dic = dictonary
     lines = tokenizer.tokenize_file(source)
     for ind, line in enumerate(lines):
         pattern_search = '\s*def\s*\w+\s*\(\w*'
@@ -25,7 +27,7 @@ def search_function_to_replace(line):
             old = token_line[ind+1][1]
 
         replace = generate()
-        if old not in replacement_dic.keys() and not old == '' and replace not in replacement_dic.items():
+        if replace not in variable_dic.items() and old not in replacement_dic.keys() and not old == '' and replace not in replacement_dic.items():
             replacement_dic[old] = replace
 
 def replace(line):
