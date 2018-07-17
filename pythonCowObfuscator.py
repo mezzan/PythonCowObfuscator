@@ -12,12 +12,14 @@ def main():
     # 2) gen sequence
     source = 'output.py'
     with open('result.py', 'w') as res:
-        res.write(gen.replace_instructions(tokenizer.tokenize_file(source)))
+        for line in gen.replace_instructions(tokenizer.tokenize_file(source)):
+            res.write(line)
 
     # 3) replace variables
     source = 'result.py'
     with open('obfuscated.py', 'w') as res:
-        res.write(obf.obfuscate(source))
+        for line in obf.obfuscate(source):
+            res.write(line)
 
 if __name__ == '__main__':
     main()
