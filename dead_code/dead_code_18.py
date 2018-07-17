@@ -1,7 +1,4 @@
-pppppp = ["<B>","Jack","and","Jill","</B>","went","up","the","hill","to","<B>",\
-"fetch","a","pail","of","</B>","water.","Jack","fell","<B>","down","and",\
-"broke","</B>","his","crown","and","<B>","Jill","came","</B>","tumbling",\
-"after"]
+pppppp = ["<B>","Jack","and","Jill","</B>","went","up","the","hill","to","<B>","fetch","a","pail","of","</B>","water.","Jack","fell","<B>","down","and", "broke","</B>","his","crown","and","<B>","Jill","came","</B>","tumbling","after"]
 
 def get_bolds(list):
         true = 1

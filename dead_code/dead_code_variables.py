@@ -76,3 +76,4 @@ def checkValue(n):
 
 ppppppppp = 0
 pppppppp = 2
+fjalksdjfa = 0

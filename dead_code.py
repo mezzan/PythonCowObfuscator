@@ -96,7 +96,8 @@ def insert_dead_code(output):
 def get_imports(lines):
     pattern = 'import\s+\w+'
     imports = set()
-    for line in lines:
+    for index, line in enumerate(lines):
         if re.search(pattern, line) is not None:
             imports.add(line)
+            lines[index] = ''
     return imports

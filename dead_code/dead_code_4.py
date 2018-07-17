@@ -4,9 +4,8 @@ ooooo = False
 
 while not ooooo:
     height = 1
-    if height <= 0:
+    if height > 0:
         ooooo = True
     else:
         ooo += height
         oooo += 1
- 

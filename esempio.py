@@ -5,12 +5,12 @@ def argv0(num):
     if v % 100 == 0:
         for index in range(0,20):
             num /= 5
-    print("Result: " + str(v) + " -- (10)")
+    print("Result: " + str(v) + " -- (1000)")
 
 
 def main(argv):
     if len(argv) == 0:
-        agv0(10)
+        argv0(10)
 
 
 if __name__ == "__main__":

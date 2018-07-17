@@ -9,9 +9,9 @@ def obfuscate(source):
     lines = tokenizer.tokenize_file(source)
     for ind, line in enumerate(lines):
         pattern_search = '\s*def\s*\w+\s*\(\w*'
-            match = re.search(pattern_search, line)
-            if match:
-                search_function_to_replace(line)
+        match = re.search(pattern_search, line)
+        if match:
+            search_function_to_replace(line)
         if not line == '\n':
             lines[ind] = replace(line)
     return lines

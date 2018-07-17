@@ -10,4 +10,4 @@ def bsort(lista, a, z):
 lista = sys.argv[1:]
 bsort(lista, 0, len(lista)-1)
 for elemento in lista:
-  print elemento,
+  print(elemento)
