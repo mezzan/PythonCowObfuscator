@@ -88,7 +88,7 @@ def search_variable_to_replace(line):
             import_list.append(token_line[ind+1][1])
 
         replace = generate()
-        if old not in replacement_dic.keys() and not old == '' and replace not in replacement_dic.items():
+        if old not in replacement_dic.keys() and not old == '' and replace not in replacement_dic.values():
             replacement_dic[old] = replace
 
 def replace(line):

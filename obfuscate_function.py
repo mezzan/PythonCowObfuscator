@@ -27,7 +27,7 @@ def search_function_to_replace(line):
             old = token_line[ind+1][1]
 
         replace = generate()
-        if replace not in variable_dic.values() and old not in replacement_dic.keys() and not old == '' and replace not in replacement_dic.items():
+        if replace not in variable_dic.values() and old not in replacement_dic.keys() and not old == '' and replace not in replacement_dic.values():
             replacement_dic[old] = replace
 
 def replace(line):
