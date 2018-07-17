@@ -19,7 +19,7 @@ ignore_variable = ['__name__', '__main__', '__doc__', '__getattr__',
 
 replacement_dic = {}
 import_list = []
-source = 'esempio.py'
+
 def obfuscate(source):
     lines = tokenizer.tokenize_file(source)
     for ind, line in enumerate(lines):
@@ -44,7 +44,7 @@ def search_variable_to_replace(line):
             old = token_line[ind+1][1]
 
         # case 3: assignment
-        elif token_line[ind][0] == token.NAME and token_line[ind+1][1] == '=':
+        elif token_line[ind][0] == token.NAME and (token_line[ind+1][1] == '=' or token_line[ind+2][1] == '='):
             old = token_line[ind][1]
 
         # case 4: as var :
@@ -71,7 +71,8 @@ def replace(line):
     token_line = tokenizer.tokenize_line(line)
     for ind, token in enumerate(token_line):
         if token_line[ind][1] in replacement_dic and token_line[ind][1] not in ignore_variable:
-            if ind > 1 and token_line[ind-2][1] not in import_list:
-                token_line[ind][1] = replacement_dic.get(token_line[ind][1])
+            if ind > 1 and token_line[ind-2][1] in import_list:
+                continue
+            token_line[ind][1] = replacement_dic.get(token_line[ind][1])
 
     return tokenizer.untokenize_line(token_line)
