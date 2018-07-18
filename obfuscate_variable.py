@@ -105,16 +105,14 @@ def search_variable_to_replace(line):
         elif token_line[ind][1] == 'if' and token_line[ind+1][0] == token.NAME and not token_line[ind+2][1] == '(':
             old = token_line[ind+1][1]
 
-        # case 13: while var
-        #elif token_line[ind][1] == 'while' and token_line[ind+1][0] == token.NAME:
-        #    old = token_line[ind+1][1]
-
-        # case 14: save import module
+        # case 13: save import module
         elif token_line[ind][1] == 'import' and token_line[ind+1][0] == token.NAME:
             import_list.append(token_line[ind+1][1])
 
-        replace = generate()
-        if old not in replacement_dic.keys() and not old == '' and replace not in replacement_dic.values():
+        if old not in replacement_dic.keys() and not old == '':
+            replace = generate()
+            while replace in replacement_dic.values():
+                replace = generate()
             replacement_dic[old] = replace
 
 def replace(lines):
