@@ -13,13 +13,14 @@ __email__ = "{valentina.ceoletta, mattia.zanotti, nicolo.zenari}@studenti.univr.
 vars = set()
 
 
-def replace_instructions(lines):
+def replace_instructions(source):
     """
     For each line, if it is neccessary, it replaces an instruction with a sequence of instructions.
 
     :param lines: Result from tokenizer.tokenize_file(...).
     :return: A list of lines.
     """
+    lines = tokenizer.tokenize_file(source)
     for index, line in enumerate(lines):
         line_tokenized = tokenizer.tokenize_line(line)
         line_to_replace = line
@@ -68,7 +69,7 @@ def replace_instructions(lines):
 def match_pattern(line):
     """
     Return the corresponding pattern of instruction.
-    
+
     :param line: The code line to categorize.
     :return: The category code.
     """
@@ -107,7 +108,7 @@ def generate_sum_sub_var_var_var(operators):
     """
     Generate a sequence of instructions to replace a simple sum o subtraction instruction.
     Instruction format: variable = variable [+,-] variable.
-    
+
     :param operators: A dictionary with operators.
     :return: A string as the new block of instructions.
     """
@@ -236,7 +237,7 @@ def generate_sum_sub_var_var_num(operators):
     """
     Generate a sequence of instructions to replace a simple sum o subtraction instruction.
     Instruction format: variable = variable [+,-] integer.
-    
+
     :param operators: A dictionary with operators.
     :return: A string as the new block of instructions.
     """
@@ -365,7 +366,7 @@ def generate_sum_sub_var_num_var(operators):
     """
     Generate a sequence of instructions to replace a simple sum o subtraction instruction.
     Instruction format: variable = integer [+,-] variable.
-    
+
     :param operators: A dictionary with operators.
     :return: A string as the new block of instructions given from a call of generate_sum_sub_var_var_num function.
     """

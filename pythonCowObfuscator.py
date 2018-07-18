@@ -35,7 +35,7 @@ def main(argv):
     # 2) gen sequence
     source = 'output.py'
     with open('result1.py', 'w') as res:
-        for line in gen.replace_instructions(tokenizer.tokenize_file(source)):
+        for line in gen.replace_instructions(source):
             res.write(line)
 
     # 3) replace constants
