@@ -21,7 +21,9 @@ pattern_search = { 'if_pat': '\s*if\s*\w+',
 
 ignore_variable = ['__name__', '__main__', '__doc__', '__getattr__',
                 '__setattr__', '__class__', '__bases__', '__subclasses__',
-                '__init__', '__dict__', 'and', 'not']
+                '__init__', '__dict__', 'and', 'not', '__author__',
+                '__copyright__', '__credits__', '__license__', '__version__',
+                '__maintainer__', '__email__', '__status__']
 
 replacement_dic = {}
 import_list = []
@@ -106,6 +108,7 @@ def replace(line):
                 continue
             token_line[ind][1] = replacement_dic.get(token_line[ind][1])
             replaced = True
+            print(replaced)
         if not replaced and token_line[ind][1] in replacement_dic.keys() and token_line[ind][1] not in ignore_variable:
             token_line[ind][1] = replacement_dic.get(token_line[ind][1])
 
