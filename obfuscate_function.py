@@ -11,31 +11,30 @@ __email__ = "{valentina.ceoletta, mattia.zanotti, nicolo.zenari}@studenti.univr.
 """ Dictionary of function to replace """
 replacement_dic = {}
 
-""" Dictionary of variable to replace """
-variable_dic = {}
-
-def obfuscate(source,dictonary):
+def obfuscate(source,dictionary):
     """
-    Given the source code and the variable dictonary,it searchs for function name and replaces them.
+    Given the source code and the variable dictionary,it searchs for function name and replaces them.
 
-    :param source,dictionary: Source file and variable dictionary.
+    :param source: Source file.
+    :param dictionary: Variable dictionary.
     :return: A list of lines.
     """
-    variable_dic = dictonary
     lines = tokenizer.tokenize_file(source)
     for ind, line in enumerate(lines):
         pattern_search = '\s*def\s*\w+\s*\(\w*'
         match = re.search(pattern_search, line)
         if match:
-            search_function_to_replace(line)
+            search_function_to_replace(line, dictionary)
     lines = replace(lines)
+
     return lines
 
-def search_function_to_replace(line):
+def search_function_to_replace(line,dictionary):
     """
-    For each line, it searchs for function name, creates new variables and saves them in a dictonary.
+    For each line, it searchs for function name, creates new variables and saves them in a dictionary.
 
     :param line: A single line from tokenizer.tokenize_file(...).
+    :param dictionary: Variable dictionary.
     """
     token_line = tokenizer.tokenize_line(line)
     for ind, tok in enumerate(token_line):
@@ -44,9 +43,9 @@ def search_function_to_replace(line):
         if token_line[ind][1] == 'def' and token_line[ind+1][0] == token.NAME:
             old = token_line[ind+1][1]
 
-        if old not in replacement_dic.keys() and not old == '':
-            replace = generate()
-            while replace not in variable_dic.values() or replace in replacement_dic.values():
+        replace = generate()
+        if replace not in dictionary.values() and old not in replacement_dic.keys() and not old == '':
+            while replace in replacement_dic.values():
                 replace = generate()
             replacement_dic[old] = replace
 

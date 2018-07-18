@@ -50,7 +50,7 @@ def obfuscate(source):
 
 def search_variable_to_replace(line):
     """
-    For each line, it searchs for variables name, creates new variables and saves them in a dictonary.
+    For each line, it searchs for variables name, creates new variables and saves them in a dictionary.
 
     :param line: A single line from tokenizer.tokenize_file(...).
     """
