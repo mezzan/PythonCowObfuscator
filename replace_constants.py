@@ -115,6 +115,7 @@ def replace_var_constant(tokens, function_name, num):
     line += ' ' + function_name + '(' + str(num) + ')\n'
     return line
 
+
 def replace_constant_while(lines):
     """
     Replace a constant into a while statement.
@@ -147,6 +148,44 @@ def is_while(line):
     if re.search(pattern, line) is not None:
         return True
     return False
+
+
+def replace_while(tokens, function_name):
+    """
+    Replace the while operation.
+
+    :param tokens: A tokenized line.
+    :param function_name: The generated function name.
+    :param num: Constant integer number.
+    :return: The new line.
+    """
+    line = ' ' * get_indentation(tokens, 'while')
+    line += 'while('
+    spec = get_while_spec(tokens)
+    line += spec['var']
+    line += spec['op']
+    line += function_name + '(' + str(spec['constant']) + ')):\n'
+
+    print(line)
+
+    return line
+
+
+def get_while_spec(tokens):
+    """
+    Recover the while specifications.
+
+    :param tokens: A tokenized line.
+    :return: A dictionary with the specs.
+    """
+    spec = {}
+    for i in range(0, len(tokens)):
+        if tokens[i][1] == 'while':
+            print(tokens)
+            spec['var'] = tokens[i+2][1]
+            spec['op'] = tokens[i + 3][1]
+            spec['constant'] = tokens[i + 4][1]
+    return spec
 
 
 def replace_constant_for(lines):
@@ -215,54 +254,6 @@ def replace_for(tokens, spec, function_name):
     line += function_name + '(' + str(spec['end']) + ')):\n'
 
     return line
-
-
-def replace_while(tokens, function_name):
-    """
-    Replace the while operation.
-
-    :param tokens: A tokenized line.
-    :param function_name: The generated function name.
-    :param num: Constant integer number.
-    :return: The new line.
-    """
-    line = ' ' * get_indentation(tokens, 'while')
-    line += 'while('
-    spec = get_while_spec(tokens)
-    line += spec['var']
-    line += spec['op']
-    line += function_name + '(' + str(spec['constant']) + ')):\n'
-
-    return line
-
-
-def get_while_spec_old(tokens):
-    """
-    Recover the while specifications.
-
-    :param tokens: A tokenized line.
-    :return: variable name and operator.
-    """
-    for i in range(0, len(tokens)):
-        if tokens[i][1] == '(':
-            return (tokens[i+1][1], tokens[i+2][1])
-    return None
-
-
-def get_while_spec(tokens):
-    """
-    Recover the while specifications.
-
-    :param tokens: A tokenized line.
-    :return: A dictionary with the specs.
-    """
-    spec = {}
-    for i in range(0, len(tokens)):
-        if tokens[i][1] == 'while':
-            spec['var'] = tokens[i+1][1]
-            spec['op'] = tokens[i + 2][1]
-            spec['constant'] = tokens[i + 3][1]
-    return spec
 
 
 def get_indentation(tokens, construct):
