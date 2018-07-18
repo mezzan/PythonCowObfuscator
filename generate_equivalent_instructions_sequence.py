@@ -13,13 +13,14 @@ __email__ = "{valentina.ceoletta, mattia.zanotti, nicolo.zenari}@studenti.univr.
 vars = set()
 
 
-def replace_instructions(lines):
+def replace_instructions(source):
     """
     For each line, if it is neccessary, it replaces an instruction with a sequence of instructions.
 
     :param lines: Result from tokenizer.tokenize_file(...).
     :return: A list of lines.
     """
+    lines = tokenizer.tokenize_file(source)
     for index, line in enumerate(lines):
         line_tokenized = tokenizer.tokenize_line(line)
         line_to_replace = line
