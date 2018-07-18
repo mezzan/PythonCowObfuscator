@@ -4,11 +4,26 @@ import tokenizer
 import obfuscate_variable as ov
 import obfuscate_function as of
 import replace_constants as rc
+import sys, getopt
 
-def main():
+def main(argv):
+
+    if len(argv) == 0:
+        print('Error: invalid use.')
+        print('python3.6 pythonCowObfuscator.py -s <source.py>')
+        sys.exit(2)
+
+    try:
+        opt, arg = getopt.getopt(argv, "s", ["idir="])
+    except getopt.GetoptError:
+        print("Error: invalid use.")
+        print("studentsList.py -d <inputdir>")
+        sys.exit(2)
+
+    source = arg[0]
+
 
     # 1) dead code
-    source = 'esempio.py'
     dead_code.start(source)
 
     # 2) gen sequence
@@ -40,4 +55,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])

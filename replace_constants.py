@@ -1,7 +1,7 @@
 import tokenizer
 import utils
 import re
-
+import random
 
 vars = set()
 new_def = []
@@ -32,11 +32,23 @@ def replace_constant_var_num(lines):
             constant = get_constant(line_tokenized)
             if constant is not None:
                 if constant <= 100000000000:
-                    if is_prime(constant):
-                        # inject factorization
+                    if random.randint(0,1) == 0:
+                        if is_prime(constant):
+                            # inject factorization
+                            random_function_name = utils.get_random_var(vars)
+                            vars.add(random_function_name)
+                            lines[index] = replace(line_tokenized, random_function_name, constant)
+                            new_def.append(generate_factorization_function(random_function_name))
+                        else:
+                            random_function_name = utils.get_random_var(vars)
+                            vars.add(random_function_name)
+                            lines[index] = replace(line_tokenized, random_function_name, constant)
+                            new_def.append(generate_ascii_function(random_function_name))
+                    else:
                         random_function_name = utils.get_random_var(vars)
+                        vars.add(random_function_name)
                         lines[index] = replace(line_tokenized, random_function_name, constant)
-                        new_def.append(generate_factorization_function(random_function_name))
+                        new_def.append(generate_ascii_function(random_function_name))
 
     return lines
 
@@ -56,6 +68,7 @@ def replace_constant_while(lines):
             if constant is not None and constant <= 100000000000:
                 # inject factorization
                 random_function_name = utils.get_random_var(vars)
+                vars.add(random_function_name)
                 lines[index] = replace_while(line_tokenized, random_function_name, constant)
                 new_def.append(generate_factorization_function(random_function_name))
 
@@ -85,6 +98,7 @@ def replace_constant_for(lines):
                 if int(spec['end']) <= 100000000000:
                     # inject factorization
                     random_function_name = utils.get_random_var(vars)
+                    vars.add(random_function_name)
                     lines[index] = replace_for(line_tokenized, spec, random_function_name)
                     new_def.append(generate_factorization_function(random_function_name))
 
@@ -199,12 +213,60 @@ def generate_factorization_function(function_name):
     return block
 
 
+def generate_ascii_function(function_name):
+    random_var_par = utils.get_random_var(vars)
+    vars.add(random_var_par)
+
+    random_var_list = utils.get_random_var(vars)
+    vars.add(random_var_list)
+
+    block = 'def ' + function_name + '(' + random_var_par + '):\n'
+
+    block += ' ' * utils.SPACE_NUM
+    block += random_var_list + '=[]\n'
+
+    random_var_for = utils.get_random_var(vars)
+    vars.add(random_var_for)
+    block += ' ' * utils.SPACE_NUM
+    block += 'for ' + random_var_for + ' in str(' + random_var_par + '):\n'
+
+    block += ' ' * (utils.SPACE_NUM * 2)
+    block += random_var_list + '.append(str(ord(' + random_var_for + ')))\n'
+
+    random_var_count = utils.get_random_var(vars)
+    vars.add(random_var_count)
+    block += ' ' * utils.SPACE_NUM
+    block += random_var_count + '=len(' + random_var_list + ')-1\n'
+
+    random_var_res = utils.get_random_var(vars)
+    vars.add(random_var_res)
+    block += ' ' * utils.SPACE_NUM
+    block += random_var_res + '=0\n'
+
+    random_var_for_2 = utils.get_random_var(vars)
+    vars.add(random_var_for_2)
+    block += ' ' * utils.SPACE_NUM
+    block += 'for ' + random_var_for_2 + ' in ' + random_var_list + ':\n'
+
+    block += ' ' * (utils.SPACE_NUM * 2)
+    block += random_var_res + '+=(10**' + random_var_count + ')*int(chr(int(' + random_var_for_2 + ')))\n'
+
+    block += ' ' * (utils.SPACE_NUM * 2)
+    block += random_var_count + '-=1\n'
+
+    block += ' ' * utils.SPACE_NUM
+    block += 'return ' + random_var_res + '\n'
+
+    return block
+
+
 def is_a_integer(str):
     try:
         num = int(str)
         return True
     except:
         return False
+
 
 def is_prime(n):
     '''check if integer n is a prime'''
@@ -231,14 +293,3 @@ def is_prime(n):
             return False
 
     return True
-
-
-
-
-
-
-
-
-
-
-

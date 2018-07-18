@@ -111,4 +111,7 @@ venv.bak/
 script.py
 out.py
 output.py
-result.py
+result*.py
+script/
+test/
+obfuscated.py
