@@ -3,6 +3,12 @@ from generate_replacement import generate
 import token
 import re
 
+
+__author__ = "Ceoletta Valentina, Zanotti Mattiva, Zenari Nicolo"
+__version__ = '"1.0'
+__email__ = "{valentina.ceoletta, mattia.zanotti, nicolo.zenari}@studenti.univr.it"
+
+
 pattern_search = { 'if_pat': '\s*if\s*\w+',
                 'for_pat': '\s*for\s*\w+\s*in\s*',
                 'imp_pat': '\s*import\s*\w*',
