@@ -102,7 +102,6 @@ def replace(line):
                 continue
             token_line[ind][1] = replacement_dic.get(token_line[ind][1])
             replaced = True
-            print(replaced)
         if not replaced and token_line[ind][1] in replacement_dic.keys() and token_line[ind][1] not in ignore_variable:
             token_line[ind][1] = replacement_dic.get(token_line[ind][1])
 
