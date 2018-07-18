@@ -4,7 +4,14 @@ import tokenizer
 import obfuscate_variable as ov
 import obfuscate_function as of
 import replace_constants as rc
-import sys, getopt
+import sys
+import getopt
+
+
+__author__ = "Ceoletta Valentina, Zanotti Mattiva, Zenari Nicolo"
+__version__ = '"1.0'
+__email__ = "{valentina.ceoletta, mattia.zanotti, nicolo.zenari}@studenti.univr.it"
+
 
 def main(argv):
 
@@ -16,12 +23,11 @@ def main(argv):
     try:
         opt, arg = getopt.getopt(argv, "s", ["idir="])
     except getopt.GetoptError:
-        print("Error: invalid use.")
-        print("studentsList.py -d <inputdir>")
+        print('Error: invalid use.')
+        print('python3.6 pythonCowObfuscator.py -s <source.py>')
         sys.exit(2)
 
     source = arg[0]
-
 
     # 1) dead code
     dead_code.start(source)
@@ -32,14 +38,11 @@ def main(argv):
         for line in gen.replace_instructions(tokenizer.tokenize_file(source)):
             res.write(line)
 
-
     # 3) replace constants
     source = 'result1.py'
     with open('result2.py', 'w') as res:
         for line in rc.replace_constants(source):
             res.write(line)
-
-
     # 4) replace variables
     source = 'result2.py'
     with open('result3.py', 'w') as res:

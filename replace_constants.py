@@ -3,6 +3,12 @@ import utils
 import re
 import random
 
+
+__author__ = "Ceoletta Valentina, Zanotti Mattiva, Zenari Nicolo"
+__version__ = '"1.0'
+__email__ = "{valentina.ceoletta, mattia.zanotti, nicolo.zenari}@studenti.univr.it"
+
+
 vars = set()
 new_def = []
 
