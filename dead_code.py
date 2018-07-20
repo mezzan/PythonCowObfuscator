@@ -2,7 +2,7 @@ import random
 import re
 
 
-__author__ = "Ceoletta Valentina, Zanotti Mattiva, Zenari Nicolo"
+__author__ = "Ceoletta Valentina, Zanotti Mattia, Zenari Nicolo"
 __version__ = '"1.0'
 __email__ = "{valentina.ceoletta, mattia.zanotti, nicolo.zenari}@studenti.univr.it"
 
