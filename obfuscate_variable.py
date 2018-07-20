@@ -32,6 +32,7 @@ replacement_dic = {}
 """ List of imported module """
 import_list = []
 
+
 def obfuscate(source):
     """
     Given the source code,it searchs for variables name and replaces them.
@@ -47,6 +48,7 @@ def obfuscate(source):
                 search_variable_to_replace(line)
     lines = replace(lines)
     return (lines, replacement_dic)
+
 
 def search_variable_to_replace(line):
     """
@@ -114,6 +116,7 @@ def search_variable_to_replace(line):
             while replace in replacement_dic.values():
                 replace = generate()
             replacement_dic[old] = replace
+
 
 def replace(lines):
     """

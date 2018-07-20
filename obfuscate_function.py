@@ -11,6 +11,7 @@ __email__ = "{valentina.ceoletta, mattia.zanotti, nicolo.zenari}@studenti.univr.
 """ Dictionary of function to replace """
 replacement_dic = {}
 
+
 def obfuscate(source,dictionary):
     """
     Given the source code and the variable dictionary,it searchs for function name and replaces them.
@@ -28,6 +29,7 @@ def obfuscate(source,dictionary):
     lines = replace(lines)
 
     return lines
+
 
 def search_function_to_replace(line,dictionary):
     """
@@ -48,6 +50,7 @@ def search_function_to_replace(line,dictionary):
             while replace in replacement_dic.values():
                 replace = generate()
             replacement_dic[old] = replace
+
 
 def replace(lines):
     """

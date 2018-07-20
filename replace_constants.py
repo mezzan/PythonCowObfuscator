@@ -8,12 +8,19 @@ __author__ = "Ceoletta Valentina, Zanotti Mattiva, Zenari Nicolo"
 __version__ = '"1.0'
 __email__ = "{valentina.ceoletta, mattia.zanotti, nicolo.zenari}@studenti.univr.it"
 
-
+""" A set with varaibles random generates. """
 vars = set()
+""" A list with the new function definition. """
 new_def = []
 
 
 def replace_constants(source):
+    """
+    For each line, if it is neccessary, it replaces a costant with a call to a new random function.
+
+    :param source: File path
+    :return: A list of lines
+    """
     lines = tokenizer.tokenize_file(source)
     lines = replace_constant_var_num(lines)
     lines = replace_constant_while(lines)
@@ -32,6 +39,12 @@ def replace_constants(source):
 
 
 def replace_constant_var_num(lines):
+    """
+    For each line, if it is neccessary, it replaces a constant assignment to a variable with a call to a new function.
+
+    :param lines: A list of lines returned from tokenizer.tokenize_file(...)
+    :return: A list of lines.
+    """
     for index, line in enumerate(lines):
         line_tokenized = tokenizer.tokenize_line(line)
         if is_var_num(line):
@@ -39,34 +52,77 @@ def replace_constant_var_num(lines):
             if constant is not None:
                 if constant <= 100000000000:
                     if random.randint(0,1) == 0:
-                        if is_prime(constant):
+                        if is_not_prime(constant):
                             # inject factorization
                             random_function_name = utils.get_random_var(vars)
                             vars.add(random_function_name)
-                            lines[index] = replace(line_tokenized, random_function_name, constant)
+                            lines[index] = replace_var_constant(line_tokenized, random_function_name, constant)
                             new_def.append(generate_factorization_function(random_function_name))
                         else:
                             random_function_name = utils.get_random_var(vars)
                             vars.add(random_function_name)
-                            lines[index] = replace(line_tokenized, random_function_name, constant)
+                            lines[index] = replace_var_constant(line_tokenized, random_function_name, constant)
                             new_def.append(generate_ascii_function(random_function_name))
                     else:
                         random_function_name = utils.get_random_var(vars)
                         vars.add(random_function_name)
-                        lines[index] = replace(line_tokenized, random_function_name, constant)
+                        lines[index] = replace_var_constant(line_tokenized, random_function_name, constant)
                         new_def.append(generate_ascii_function(random_function_name))
 
     return lines
 
 
 def is_var_num(line):
+    """
+    Check if the operation is var = integer.
+
+    :param line: A single code line.
+    :return: True if a line match the regex.
+    """
     pattern = '\s*\w+\s*=\s*\d+'
     if re.search(pattern, line) is not None:
         return True
     return False
 
 
+def get_constant(tokens):
+    """
+    If a single token contains a constant, return it; otherwise return None
+    :param tokens: A tokenized line.
+    :return: A constant or None
+    """
+    for token in tokens:
+        if token[1].isnumeric():
+            return int(token[1])
+    return None
+
+
+def replace_var_constant(tokens, function_name, num):
+    """
+    Replace the assignment operation.
+
+    :param tokens: A tokenized line.
+    :param function_name: The generated function name.
+    :param num: Constant integer number.
+    :return: The new line.
+    """
+    line = ''
+    for token in tokens:
+        line += token[1]
+        if token[1] == '=':
+            break
+
+    line += ' ' + function_name + '(' + str(num) + ')\n'
+    return line
+
+
 def replace_constant_while(lines):
+    """
+    Replace a constant into a while statement.
+
+    :param lines: A list of lines returned from tokenizer.tokenize_file(...)
+    :return: A list of lines.
+    """
     for index, line in enumerate(lines):
         line_tokenized = tokenizer.tokenize_line(line)
         if is_while(line):
@@ -75,27 +131,70 @@ def replace_constant_while(lines):
                 # inject factorization
                 random_function_name = utils.get_random_var(vars)
                 vars.add(random_function_name)
-                lines[index] = replace_while(line_tokenized, random_function_name, constant)
+                lines[index] = replace_while(line_tokenized, random_function_name)
                 new_def.append(generate_factorization_function(random_function_name))
 
     return lines
 
 
 def is_while(line):
+    """
+    Check if the line contain a while.
+
+    :param line: A single code line.
+    :return: True if a line match the regex.
+    """
     pattern = '\s*while\s*\(\s*\w+[\<\>\!=]\w+\):'
     if re.search(pattern, line) is not None:
         return True
     return False
 
 
-def get_constant(tokens):
-    for token in tokens:
-        if token[1].isnumeric():
-            return int(token[1])
-    return None
+def replace_while(tokens, function_name):
+    """
+    Replace the while operation.
+
+    :param tokens: A tokenized line.
+    :param function_name: The generated function name.
+    :param num: Constant integer number.
+    :return: The new line.
+    """
+    line = ' ' * get_indentation(tokens, 'while')
+    line += 'while('
+    spec = get_while_spec(tokens)
+    line += spec['var']
+    line += spec['op']
+    line += function_name + '(' + str(spec['constant']) + ')):\n'
+
+    print(line)
+
+    return line
+
+
+def get_while_spec(tokens):
+    """
+    Recover the while specifications.
+
+    :param tokens: A tokenized line.
+    :return: A dictionary with the specs.
+    """
+    spec = {}
+    for i in range(0, len(tokens)):
+        if tokens[i][1] == 'while':
+            print(tokens)
+            spec['var'] = tokens[i+2][1]
+            spec['op'] = tokens[i + 3][1]
+            spec['constant'] = tokens[i + 4][1]
+    return spec
 
 
 def replace_constant_for(lines):
+    """
+    Replace a constant into a for statement.
+
+    :param lines: A list of lines returned from tokenizer.tokenize_file(...)
+    :return: A list of lines.
+    """
     for index, line in enumerate(lines):
         line_tokenized = tokenizer.tokenize_line(line)
         if is_for(line):
@@ -112,6 +211,12 @@ def replace_constant_for(lines):
 
 
 def is_for(line):
+    """
+    Check if the line contain a for.
+
+    :param line: A single code line.
+    :return: True if a line match the regex.
+    """
     pattern = '\s*for\s*\w+\s*in\s*range\(\d+,\d+\):'
     if re.search(pattern, line) is not None:
         return True
@@ -120,6 +225,12 @@ def is_for(line):
 
 # for var in range(num,num):
 def get_for_spec(tokens):
+    """
+    Recover the for specifications.
+
+    :param tokens: A tokenized line.
+    :return: A dictionary with the specs.
+    """
     spec = {}
     for i in range(0, len(tokens)):
         if tokens[i][1] == 'for':
@@ -130,6 +241,14 @@ def get_for_spec(tokens):
 
 
 def replace_for(tokens, spec, function_name):
+    """
+    Replace the for statement.
+
+    :param tokens: A tokenized line.
+    :param spec: The dictionary with the specs.
+    :param function_name: The generated function name.
+    :return: The new line.
+    """
     line = ' ' * get_indentation(tokens, 'for')
     line += 'for ' + spec['var'] + ' in range(' + spec['start'] + ','
     line += function_name + '(' + str(spec['end']) + ')):\n'
@@ -137,29 +256,14 @@ def replace_for(tokens, spec, function_name):
     return line
 
 
-def replace(tokens, function_name, num):
-    line = ''
-    for token in tokens:
-        line += token[1]
-        if token[1] == '=':
-            break
-
-    line += ' ' + function_name + '(' + str(num) + ')\n'
-    return line
-
-
-def replace_while(tokens, function_name, num):
-    line = ' ' * get_indentation(tokens, 'while')
-    line += 'while('
-    var_name, op = get_while_spec(tokens)
-    line += var_name
-    line += op
-    line += function_name + '(' + str(num) + ')):\n'
-
-    return line
-
-
 def get_indentation(tokens, construct):
+    """
+    Calculate the correct indentation.
+
+    :param tokens: A tokenized line.
+    :param construct: While o For constructor
+    :return: The number of spaces.
+    """
     if construct == 'while':
         for token in tokens:
             if token[1] == 'while':
@@ -171,14 +275,13 @@ def get_indentation(tokens, construct):
     return 0
 
 
-def get_while_spec(tokens):
-    for i in range(0, len(tokens)):
-        if tokens[i][1] == '(':
-            return (tokens[i+1][1], tokens[i+2][1])
-    return None
-
-
 def generate_factorization_function(function_name):
+    """
+    Generate a factorization function with random variable.
+
+    :param function_name: The random function name
+    :return: A code block with the function.
+    """
     random_var_while = utils.get_random_var(vars)
     vars.add(random_var_while)
 
@@ -220,6 +323,12 @@ def generate_factorization_function(function_name):
 
 
 def generate_ascii_function(function_name):
+    """
+    Generate a function with random variable to play with a constant.
+
+    :param function_name: The random function name
+    :return: A code block with the function.
+    """
     random_var_par = utils.get_random_var(vars)
     vars.add(random_var_par)
 
@@ -267,6 +376,12 @@ def generate_ascii_function(function_name):
 
 
 def is_a_integer(str):
+    """
+    Check if str contains an integer.
+
+    :param str: The string in which check.
+    :return: True if str can be converted to int, False otherwise.
+    """
     try:
         num = int(str)
         return True
@@ -274,8 +389,13 @@ def is_a_integer(str):
         return False
 
 
-def is_prime(n):
-    '''check if integer n is a prime'''
+def is_not_prime(n):
+    """
+    Check if integer n is not a prime number.
+
+    :param n: Number to check.
+    :return: True if n is not a prime, False otherwise.
+    """
 
     # make sure n is a positive integer
     n = abs(int(n))
