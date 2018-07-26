@@ -5,6 +5,7 @@ import obfuscate_function as of
 import replace_constants as rc
 import sys
 import getopt
+import os
 
 
 __author__ = "Ceoletta Valentina, Zanotti Mattia, Zenari Nicolo"
@@ -27,6 +28,10 @@ def main(argv):
         sys.exit(2)
 
     source = arg[0]
+
+    # create dir result if not exists
+    if not os.path.exists('result'):
+        os.makedirs('result')
 
     # 1) dead code
     dead_code.start(source)
