@@ -18,6 +18,9 @@ Python Cow Obfuscator provvede a:
 - sostituire i nomi di tutte le variabili con nomi generati in modo casuale
 - sostituire i nomi di tutte le funzioni con nomi generati in modo casuale
 
+## Avvio
+python3.x pythonCowObfuscator.py -s file_to_obfuscate.py
+
 ## Autori
 - Valentina Ceoletta valentina.ceoletta@studenti.univr.it
 - Mattia Zanotti mattia.zanotti@studenti.univr.it
