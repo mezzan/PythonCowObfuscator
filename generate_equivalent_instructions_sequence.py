@@ -4,7 +4,7 @@ import re
 import utils
 
 
-__author__ = "Ceoletta Valentina, Zanotti Mattiva, Zenari Nicolo"
+__author__ = "Ceoletta Valentina, Zanotti Mattia, Zenari Nicolo"
 __version__ = '"1.0'
 __email__ = "{valentina.ceoletta, mattia.zanotti, nicolo.zenari}@studenti.univr.it"
 
@@ -69,7 +69,7 @@ def replace_instructions(source):
 def match_pattern(line):
     """
     Return the corresponding pattern of instruction.
-    
+
     :param line: The code line to categorize.
     :return: The category code.
     """
@@ -108,7 +108,7 @@ def generate_sum_sub_var_var_var(operators):
     """
     Generate a sequence of instructions to replace a simple sum o subtraction instruction.
     Instruction format: variable = variable [+,-] variable.
-    
+
     :param operators: A dictionary with operators.
     :return: A string as the new block of instructions.
     """
@@ -237,7 +237,7 @@ def generate_sum_sub_var_var_num(operators):
     """
     Generate a sequence of instructions to replace a simple sum o subtraction instruction.
     Instruction format: variable = variable [+,-] integer.
-    
+
     :param operators: A dictionary with operators.
     :return: A string as the new block of instructions.
     """
@@ -366,7 +366,7 @@ def generate_sum_sub_var_num_var(operators):
     """
     Generate a sequence of instructions to replace a simple sum o subtraction instruction.
     Instruction format: variable = integer [+,-] variable.
-    
+
     :param operators: A dictionary with operators.
     :return: A string as the new block of instructions given from a call of generate_sum_sub_var_var_num function.
     """
@@ -758,7 +758,7 @@ def short_to_long(tokens):
     var2 = tokens[2][1]
     op = tokens[1][1][:1]
 
-    print(tokens)
+    #print(tokens)
     indentation = int(tokens[0][2][0]) - 1
     block = ' ' * indentation
 
