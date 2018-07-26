@@ -10,7 +10,7 @@ def argv0(num):
 
 def main(argv):
     if len(argv) == 0:
-        n_to_check = 153
+        n_to_check = 10
     else:
         n_to_check = int(argv[0])
 
