@@ -115,3 +115,4 @@ result*.py
 script/
 test/
 obfuscated.py
+result/

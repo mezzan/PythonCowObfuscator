@@ -10,7 +10,11 @@ def argv0(num):
 
 def main(argv):
     if len(argv) == 0:
-        argv0(10)
+        n_to_check = 153
+    else:
+        n_to_check = int(argv[0])
+
+    argv0(n_to_check)
 
 
 if __name__ == "__main__":

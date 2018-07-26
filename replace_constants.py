@@ -179,7 +179,6 @@ def get_while_spec(tokens):
     spec = {}
     for i in range(0, len(tokens)):
         if tokens[i][1] == 'while':
-            print(tokens)
             spec['var'] = tokens[i+2][1]
             spec['op'] = tokens[i + 3][1]
             spec['constant'] = tokens[i + 4][1]
