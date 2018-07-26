@@ -5,7 +5,7 @@ import utils
 
 
 __author__ = "Ceoletta Valentina, Zanotti Mattia, Zenari Nicolo"
-__version__ = '"1.0'
+__version__ = '1.0'
 __email__ = "{valentina.ceoletta, mattia.zanotti, nicolo.zenari}@studenti.univr.it"
 
 
@@ -758,7 +758,6 @@ def short_to_long(tokens):
     var2 = tokens[2][1]
     op = tokens[1][1][:1]
 
-    #print(tokens)
     indentation = int(tokens[0][2][0]) - 1
     block = ' ' * indentation
 

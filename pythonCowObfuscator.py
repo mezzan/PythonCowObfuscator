@@ -1,6 +1,5 @@
 import dead_code
 import generate_equivalent_instructions_sequence as gen
-import tokenizer
 import obfuscate_variable as ov
 import obfuscate_function as of
 import replace_constants as rc
@@ -9,7 +8,7 @@ import getopt
 
 
 __author__ = "Ceoletta Valentina, Zanotti Mattia, Zenari Nicolo"
-__version__ = '"1.0'
+__version__ = '1.0'
 __email__ = "{valentina.ceoletta, mattia.zanotti, nicolo.zenari}@studenti.univr.it"
 
 
@@ -33,26 +32,26 @@ def main(argv):
     dead_code.start(source)
 
     # 2) gen sequence
-    source = 'output.py'
-    with open('result1.py', 'w') as res:
+    source = './result/output.py'
+    with open('./result/result1.py', 'w') as res:
         for line in gen.replace_instructions(source):
             res.write(line)
 
     # 3) replace constants
-    source = 'result1.py'
-    with open('result2.py', 'w') as res:
+    source = './result/result1.py'
+    with open('./result/result2.py', 'w') as res:
         for line in rc.replace_constants(source):
             res.write(line)
     # 4) replace variables
-    source = 'result2.py'
-    with open('result3.py', 'w') as res:
+    source = './result/result2.py'
+    with open('./result/result3.py', 'w') as res:
         lines,dic = ov.obfuscate(source)
         for line in lines:
             res.write(line)
 
     # 5) replace function
-    source = 'result3.py'
-    with open('obfuscated.py', 'w') as res:
+    source = './result/result3.py'
+    with open('./result/obfuscated.py', 'w') as res:
         for line in of.obfuscate(source, dic):
             res.write(line)
 

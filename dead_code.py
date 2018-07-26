@@ -1,9 +1,8 @@
 import random
-import re
 
 
 __author__ = "Ceoletta Valentina, Zanotti Mattia, Zenari Nicolo"
-__version__ = '"1.0'
+__version__ = '1.0'
 __email__ = "{valentina.ceoletta, mattia.zanotti, nicolo.zenari}@studenti.univr.it"
 
 
@@ -12,7 +11,7 @@ candidate_lines = ['while', 'for', 'def', 'if ']
 def start(source_path):
     # apro il file da offuscare
     source = open(source_path, "r")
-    output = open('output.py', 'w')
+    output = open('./result/output.py', 'w')
 
     lines = source.readlines()
 

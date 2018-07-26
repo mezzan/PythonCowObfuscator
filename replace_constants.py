@@ -5,7 +5,7 @@ import random
 
 
 __author__ = "Ceoletta Valentina, Zanotti Mattia, Zenari Nicolo"
-__version__ = '"1.0'
+__version__ = '1.0'
 __email__ = "{valentina.ceoletta, mattia.zanotti, nicolo.zenari}@studenti.univr.it"
 
 """ A set with varaibles random generates. """
@@ -165,8 +165,6 @@ def replace_while(tokens, function_name):
     line += spec['var']
     line += spec['op']
     line += function_name + '(' + str(spec['constant']) + ')):\n'
-
-    print(line)
 
     return line
 
