@@ -758,7 +758,7 @@ def short_to_long(tokens):
     var2 = tokens[2][1]
     op = tokens[1][1][:1]
 
-    print(tokens)
+    #print(tokens)
     indentation = int(tokens[0][2][0]) - 1
     block = ' ' * indentation
 
