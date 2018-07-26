@@ -9,5 +9,4 @@ while ppppppp != "q":
         print_options()
     else:
         ppppppp = "OMG!! It's cow language <3 !!"
-
     break

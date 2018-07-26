@@ -1,13 +1,7 @@
-def bsort(lista, a, z):
+def qualcosa(n):
+	if n==1 :
+		return 1
+	if n==2 :
+		return 1
 
-  for j in range(a, z):
-    for k in range(j+1, z+1):
-      if lista[k] < lista[j]:
-        scambio = lista[k]
-        lista[k] = lista[j]
-        lista[j] = scambio
-
-lista = sys.argv[1:]
-bsort(lista, 0, len(lista)-1)
-for elemento in lista:
-  print(elemento)
+	return qualcosa(n-1) + qualcosa(n-2)

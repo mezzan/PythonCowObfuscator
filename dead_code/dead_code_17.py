@@ -4,7 +4,6 @@ while not ppp == pppp:
         ppp = pppp
         pppp = temp
     ppp = ppp - pppp
-
 for i in ppppp:
 	if ppp == pppp:
 		ppp = ppp +(pppp % 2)

@@ -1,5 +1,4 @@
 def quicksort(list):
-
     def partition(pivot,list):
        slist = []
        glist = []
@@ -9,7 +8,6 @@ def quicksort(list):
            else:
                slist += [x]
        return slist, glist
-
     if len(list) <= 1:
         return list
     else:
