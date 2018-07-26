@@ -10,6 +10,8 @@ Il nostro progetto si ispira al linguaggio Cow e prevede l'offuscamento di scrip
 ## Funzionalità
 Python Cow Obfuscator provvede a:
 - generare ed inserire codice morto
+- rimuovere i commenti
+- rimuovere tutte le righe vuote
 - sostituire istruzioni con una sequenza di istruzioni, in modo particolare converte in cicli for e while le seguenti istruzioni:
     - var = var [+, -, *, /] var
     - var = var [+, -, *, /] integer
