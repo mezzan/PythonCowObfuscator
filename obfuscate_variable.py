@@ -128,15 +128,13 @@ def replace(lines):
     for index, line in enumerate(lines):
         if not line == '\n':
             token_line = tokenizer.tokenize_line(line)
-            for ind, token in enumerate(token_line):
-                #replaced = False
+            for ind, tok in enumerate(token_line):
                 if token_line[ind][1] in replacement_dic.keys() and token_line[ind][1] not in ignore_variable:
                     if ind > 1 and token_line[ind-2][1] in import_list:
                         continue
+                    if token_line[ind][0] == token.NAME and token_line[ind+1][1] == '(':
+                        continue
                     token_line[ind][1] = replacement_dic.get(token_line[ind][1])
-                    #replaced = True
-                #if not replaced and token_line[ind][1] in replacement_dic.keys() and token_line[ind][1] not in ignore_variable:
-                #    token_line[ind][1] = replacement_dic.get(token_line[ind][1])
 
             lines[index] = tokenizer.untokenize_line(token_line)
     return lines
